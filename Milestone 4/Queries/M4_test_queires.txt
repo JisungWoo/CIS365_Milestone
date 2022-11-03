@@ -1,0 +1,115 @@
+--Group By Having queries
+
+Select FirstName, LastName, count(visit#)
+	From Owners O Join Clients C
+			on O.ownerID = C.ownerId
+		      Join Visits V
+			on C.ClientId = V .ClientId
+				group by Firstname,LastName
+				Having count(visit#)>1
+Order by 2;
+
+
+********************************************************************************************************************************************
+
+Select breed, count(gender)
+	From Clients
+		where gender = "Male"
+			Group by breed
+			having count(gender)> 3
+Order by 2;
+
+
+
+********************************************************************************************************************************************
+
+Select TreatmentID, Description, count(TreatmentId)
+	From treatments t join visits v
+		on T.treatmentId = V.treatmentId
+			group by treatmentID, Description
+			Having count(TreatmentID) > 2;
+
+
+
+********************************************************************************************************************************************
+
+
+--Employees that have worked on cats
+Select EmployeeID, LastName, Etype
+	From Employees
+		Where EmployeeID in
+			(Select EmployeeID
+				From Visits
+					Where ClientId in
+						(Select ClientId
+							From Clients
+								Where Species = "Cat"));
+
+********************************************************************************************************************************************
+--Owners whose pets where helped by employee E03
+Select OwnerID, FirstName, LastName
+	From Owners
+		Where OwnerID in
+			(Select OwnerID
+				From Clients
+					Where ClientId in
+						(Select ClientId
+							From Visits
+								Where EmployeeId = "E03"));
+
+
+********************************************************************************************************************************************
+
+--Name and breed of all the dogs
+Select NameOfPet, Breed
+	From Clients
+		Where ClientID in
+			(Select ClientID
+				From Visits
+					Where ClientId in
+						(Select ClientId
+							From Clients
+								Where Species = "Dog"));
+
+
+********************************************************************************************************************************************
+
+Create View EachVisit As
+	Select C.NameOfPet, O.LastName, E.LastName, Vi.Description, Vi.Price "Total Cost of Visit
+		From Clients C Join Owners O
+				on C.OwnersID = O.OwnersID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId
+			Join VisitItems Vi
+				on V.Visit# = Vi.Visit#;
+
+Select * From EachVisit;
+
+
+
+********************************************************************************************************************************************
+Create View NumClients As
+	Select FirstName, LastName, reasonforVisit, Count(vist#)
+		From Employees E join Visits V
+				on E.EmployeeID = V.Employees
+			Group By FirstName,LastName, reasonforvisit;
+
+Select * from NumClients; 
+
+
+********************************************************************************************************************************************
+
+
+Create View Caretakers As
+	Select Ownerid, LastName, NameofPet, employeeID, LastName
+		From Clients C Join Owners O
+				on C.OwnersID = O.OwnersID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId;
+			
+
+Select * From Caretakers;

@@ -1,0 +1,1252 @@
+# 16 Queries
+===============================================================================================
+
+/* Names of owners making more than 3 visits in the previous month*/
+
+SELECT O.FirstName, O.LastName, DATENAME(month, V.DateofVisit), COUNT(V.ClientID)
+	FROM OWNERS O JOIN CLIENTS C
+				  ON O.OwnerID = C.OwnerID
+				  JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+		GROUP BY O.FirstName, O.LastName, DATENAME(month, V.DateofVisit)
+		HAVING DATENAME(month, V.DateofVisit) = 'November'
+		AND COUNT(V.ClientID) > 3;
+
+=============================================================================================
+
+/* Names of clients not seen in the last year*/
+
+SELECT C.NameOfPet, DATENAME(year, V.DateofVisit) 'LastYear', COUNT(V.ClientID) 'NumOfVisits'
+	FROM CLIENTS C JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+		GROUP BY C.NameOfPet, DATENAME(year, V.DateofVisit)
+		HAVING DATENAME(year, V.DateofVisit) = '2018'
+		AND COUNT(V.ClientID) < 1;
+
+=============================================================================================
+
+/* Treatment performed on animals most oftem (by species)*/
+
+SELECT V.TreatmentID, VI.Description, C.Species
+	FROM CLIENTS C JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+				  JOIN VISITITEMS VI
+				  ON VI.TreatmentID = V.TreatmentID
+				  AND VI.Visit# = V.Visit#
+Order by 1 desc;
+
+==============================================================================================
+
+/* Which client has had the same procedure performed more than once?*/
+
+SELECT C.NameOfPet, COUNT(V.TreatmentID) 'SameProcedure'
+	FROM CLIENTS C JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+		GROUP BY C.NameOfPet
+		HAVING COUNT(V.TreatmentID) > 2;
+
+==============================================================================================
+
+/* A listing of owners, clients in decreasing order by number of visit*/
+
+SELECT O.FirstName, O.LastName, C.NameOfPet, COUNT(V.Visit#) 'NumOfVisits'
+	FROM CLIENTS C JOIN VISITS V
+			ON C.ClientID = V.ClientID
+			JOIN OWNERS O
+			ON O.OwnerID = C.OwnerID
+		GROUP BY O.FirstName, O.LastName, C.NameOfPet
+Order by 4 desc;
+
+===============================================================================================
+
+/* List of dogs that have been neutered*/
+
+SELECT C.NameOfPet
+	FROM CLIENTS C
+		WHERE C.Species LIKE 'Dog%'
+		And C.NeuteredSpayed = 'Yes';
+
+===============================================================================================
+
+/* List all clients date of birth and wegiht*/
+
+SELECT C.NameOfPet, C.PetWeight, C.DateOfBirth
+	FROM CLIENTS C;
+
+================================================================================================
+
+/* List all clients by breed*/
+
+SELECT C.NameOfPet, C.Breed
+	FROM CLIENTS C
+Order by 2;
+
+================================================================================================
+
+/* For each visit, list the client, the owner, the vet who worked on the animal, and the treatment performed. Also include cost of treatment and total cost of visit*/
+
+Create View EachVisit As
+	Select C.NameOfPet, O.LastName, E.LastName, Vi.Description, Vi.Price "Total Cost of Visit
+		From Clients C Join Owners O
+				on C.OwnersID = O.OwnersID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId
+			Join VisitItems Vi
+				on V.Visit# = Vi.Visit#;
+
+Select * From EachVisit;
+
+=================================================================================================
+
+/* Which clients have been boarded for a procedure in the last month? */
+
+SELECT C.NameOfPet, DATENAME(month, DateIn) 'LastMonth'
+	FROM CLIENTS C JOIN BOARDINGINFO B
+					ON C.ClientID = B.ClientID
+		GROUP BY C.NameOfPet, DATENAME(month, DateIn)
+		HAVING DATENAME(month, DateIn) = 'November';
+
+=================================================================================================
+
+/* For all clients with a boarding appointment in the next week, which do not have current vaccinations?*/
+
+SELECT *
+	FROM NO_VACINATIONS;
+
+=================================================================================================
+
+/* Client that has been boarded for procedures the most often*/
+
+SELECT C.NameOfPet, COUNT(B.ClientID) 'NumOfBoarding'
+	FROM CLIENTS C JOIN BOARDINGINFO B
+					ON C.ClientID = B.ClientID
+		GROUP BY C.NameOfPet
+		HAVING COUNT(B.ClientID) >= 2
+ORDER BY 2 desc;
+
+=================================================================================================
+
+/* Which employee has been with Scalawags the longest*/
+
+SELECT E.FName, E.LName, MAX(DATEDIFF(year, E.StartDate, '2019-12-08')) 'YearsEmployed'
+	FROM EMPLOYEES E
+		GROUP BY E.FName, E.LName
+ORDER BY 3 desc;
+
+=================================================================================================
+/*Which employees were working when a specific client was boarded?*/
+
+Create View Caretakers As
+	Select O.OwnerId, O.LastName, C.NameofPet, E.employeeID, E.LName as 'Caretaker'
+		From Clients C Join Owners O
+				on C.OwnerID = O.OwnerID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId;
+
+SELECT *
+	FROM Caretakers
+
+=================================================================================================
+
+/* Which clients have had after-hours emergencies? */
+
+SELECT C.NameOFPet, T.Description 'ReasonForVisit'
+	FROM CLIENTS C JOIN VISITS V
+					ON C.ClientID = V.ClientID
+					JOIN VISITITEMS VI
+					ON V.Visit# = VI.Visit#
+					AND V.TreatmentID = VI.TreatmentID
+					JOIN TREATMENTS T
+					ON V.TreatmentID = T.TreatmentID
+					And VI.TreatmentID = T.TreatmentID
+		GROUP BY C.NameOfPet, T.Description
+		HAVING T.Description LIKE 'after hours emergency%';
+
+==================================================================================================
+
+/*The number of clients including the dates and names of clients that each Vet serviced this month. */
+
+SELECT COUNT(V.ClientID) 'NumOfClients', V.DateOfVisit, C.NameOfPet, E.FName, E.LName
+	FROM VISITS V JOIN CLIENTS C
+				  ON V.ClientID = C.ClientID
+				  JOIN VETERINARIANS VE
+				  ON V.EmployeeID = VE.VID
+				  JOIN EMPLOYEES E
+				  ON VE.VID = E.EmployeeID
+		GROUP BY V.DateOfVisit, C.NameOfPet, E.FName, E.LName
+		HAVING DATENAME(month, V.DateOfVisit) = 'December';
+
+==================================================================================================
+
+# Sample Table
+
+==================================================================================================
+/* Display EMPLOYEES Table */
+
+SELECT * 
+	FROM EMPLOYEES
+
+==============================================================
+/* Display FullTime Table */
+
+SELECT * 
+	FROM FullTime
+
+==============================================================
+/* Display PartTime Table */
+
+SELECT * 
+	FROM PartTime
+
+==============================================================
+/* Display VETERINARIANS Table */
+
+SELECT * 
+	FROM VETERINARIANS
+
+===============================================================
+/* Display RECORDKEEPER Table */
+
+SELECT * 
+	FROM RECORDKEEPER
+
+===============================================================
+/* Display VISITS Table */
+
+SELECT * 
+	FROM VISITS
+
+===============================================================
+/* Display CLIENTS Table */
+
+SELECT * 
+	FROM CLIENTS
+
+===============================================================
+/* Display COLORS Table */
+
+SELECT *
+	FROM COLORS
+
+================================================================
+/* Display OWNERS Table */
+
+SELECT * 
+	FROM OWNERS
+
+================================================================
+/* Display VISITITEMS Table */
+
+SELECT * 
+	FROM VISITITEMS
+
+================================================================
+/* Display BOARDINGINFO Table */
+
+SELECT * 
+	FROM BOARDINGINFO
+
+================================================================
+/* Display TREATMENTS Table */
+
+SELECT * 
+	FROM TREATMENTS
+
+================================================================
+
+# Combined Queries
+
+================================================================
+
+/* Create Table */
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Employee TABLE */ 
+create table EMPLOYEES (
+   EmployeeID	char(4),
+   FName	varchar(20)	Not null,
+   LName	varchar(20)	Not null,
+   Address	varchar(25)	Not null,
+   Phone	char(12)	Not null,
+   payRate	smallint	Not null,
+   StartDate    Date            Not null,
+   DaysAbsent   smallint        Not null,
+   EType        varchar(15)     Not null,
+   Primary Key (EmployeeID));
+
+
+insert into EMPLOYEES values ('E01' , 'Jimmy' , 'Fallon' , '123 Fallon St.' , '4801230000' , 20 , '12/17/2014' , 1 , 'Part-Time');
+insert into EMPLOYEES values ('E02' , 'Jimmy' , 'Kimmel' , '145 Fallon St.' , '4801230001' , 19 , '1/17/2013' , 13 , 'Full-Time');
+insert into EMPLOYEES values ('E03' , 'Bob' , 'Vance' , '6783 Vance St.' , '4801230002' , 20 , '1/17/2012' , 6 , 'Full-Time');
+insert into EMPLOYEES values ('E04' , 'Zach' , 'Efron' , '126 Efron St.' , '4801230003' , 17 , '1/20/2014' , 6 , 'Part-Time');
+insert into EMPLOYEES values ('E05' , 'Bill' , 'Murray' , '183 Murray St.' , '4801230004' , 20 , '5/17/2014' , 8 , 'Full-Time');
+insert into EMPLOYEES values ('E06' , 'Steve' , 'Urkel' , '137 Urkel St.' , '4801230005' , 19 , '1/17/2013' , 0 , 'Full-Time');
+insert into EMPLOYEES values ('E07' , 'Charlie' , 'Chaplin' , '139 Chaplin St.' , '4801230006' , 18 , '1/17/2017' , 8 , 'Full-Time');
+insert into EMPLOYEES values ('E08' , 'Stephan' , 'King' , '147 King St.' , '4801230007' , 20 , '9/17/2014' , 1 , 'Part-Time');
+insert into EMPLOYEES values ('E09' , 'Ricardo' , 'Phillips' , '1122 Phillips St.' , '4801230008' , 21 , '1/17/2008' , 4 , 'Part-Time');
+insert into EMPLOYEES values ('E10' , 'Victoria' , 'Ford' , '1229 Ford St.' , '4801230009' , 22 , '1/17/2001' , 6 , 'Full-Time');
+insert into EMPLOYEES values ('E11' , 'Jill' , 'Stevens' , '1237 Stevens St.' , '4801230010' , 23 , '1/17/2012' , 7 , 'Part-Time');
+insert into EMPLOYEES values ('E12' , 'April' , 'Johnson' , '145 Johnson St.' , '4801230011' , 17 , '1/17/2004' , 8 , 'Full-Time');
+insert into EMPLOYEES values ('E13' , 'Summer' , 'Wheatly' , '121 Wheatly St.' , '4801230012' , 17 , '1/17/2010' , 9 , 'Part-Time');
+insert into EMPLOYEES values ('E14' , 'Emma' , 'Watson' , '111 Watson St.' , '4801230013' , 16 , '1/20/2014' , 10 , 'Full-Time');
+insert into EMPLOYEES values ('E15' , 'Daniel' , 'Radcliffe' , '1236 Radcliffe St.' , '4801230014' , 17 , '1/17/2004' , 11 , 'Full-Time');
+insert into EMPLOYEES values ('E16' , 'Cameron' , 'Diaz' , '1234 Diaz St.' , '4801230015' , 16 , '1/29/2014' , 15 , 'Part-Time');
+insert into EMPLOYEES values ('E17' , 'Steven' , 'Spielburg' , '156 Spielburg St.' , '4801230016' , 40 , '1/17/2007' , 13 , 'Full-Time');
+insert into EMPLOYEES values ('E18' , 'Harrison' , 'Ford' , '199 Ford St.' , '4801230017' , 15 , '1/17/2011' , 6 , 'Part-Time');
+insert into EMPLOYEES values ('E19' , 'Kate' , 'Winslet' , '200 Winslet St.' , '4801230018' , 24 , '1/24/2014' , 7 , 'Full-Time');
+insert into EMPLOYEES values ('E20' , 'Natalie' , 'Portman' , '600 Portman St.' , '4801230019' , 16 , '8/17/2014' , 20 , 'Part-Time');
+insert into EMPLOYEES values ('E21' , 'Angelina' , 'Jolie' , '567 Jolie St.' , '4801230020' , 18 , '5/23/2013' , 7 , 'Full-Time');
+insert into EMPLOYEES values ('E22' , 'Jessica' , 'Alba' , '786 Alba St.' , '4801230021' , 19 , '10/17/2013' , 3 , 'Full-Time');
+insert into EMPLOYEES values ('E23' , 'Keira' , 'Knightley' , '103 Knightley St.' , '4801230022' , 16 , '7/07/2014' , 1 , 'Full-Time');
+insert into EMPLOYEES values ('E24' , 'Halle' , 'Berry' , '1209 Berry St.' , '4801230023' , 19 , '3/17/2012' , 12 , 'Full-Time');
+insert into EMPLOYEES values ('E25' , 'Bruce' , 'Willis' , '1230 Willis St.' , '4801230024' , 15 , '5/17/2014' , 15 , 'Part-Time');
+insert into EMPLOYEES values ('E26' , 'Sandra' , 'Bullock' , '1113 Bullock St.' , '4801230025' , 30 , '1/17/2004' , 10 , 'Full-Time');
+insert into EMPLOYEES values ('E27' , 'Drew' , 'Barryymore' , '1000 Barryymore St.' , '4801230026' , 29 , '1/17/2000' , 0 , 'Full-Time');
+insert into EMPLOYEES values ('E28' , 'Bruce' , 'Lee' , '100 Lee St.' , '4801230027' , 25 , '6/07/2014' , 0 , 'Part-Time');
+insert into EMPLOYEES values ('E29' , 'Shia' , 'LeBeouf' , '128 LeBeouf St.' , '4801230028' , 50 , '1/17/1998' , 0 , 'Part-Time');
+insert into EMPLOYEES values ('E30' , 'Keanu' , 'Reeves' , '127 Reeves St.' , '4801230029' , 45 , '1/17/2000' , 0 , 'Part-Time');
+
+
+Select * From Employees;
+
+===================================================================================================================================
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Full-Time TABLE */
+
+
+create table FullTime (
+  FID		  char(4)    Not null,
+  GradDate	  Date       Not null,
+  JobTitle   varchar(15)      Not null,
+  Primary Key (FID));
+
+
+insert into FullTime values('E02' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E03' , '12/12/2016' , 'Record Keeper');
+insert into FullTime values('E05' , '5/12/2017' , 'Veternarian');
+insert into FullTime values('E06' , '12/12/2008' , 'Veternarian');
+insert into FullTime values('E07' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E10' , '12/12/2016' , 'Veternarian');
+insert into FullTime values('E12' , '5/12/2007' , 'Record Keeper');
+insert into FullTime values('E14' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E15' , '5/12/2017' , 'Record Keeper');
+insert into FullTime values('E17' , '12/12/2007' , 'Veternarian');
+insert into FullTime values('E19' , '12/12/2016' , 'Record Keeper');
+insert into FullTime values('E21' , '5/12/2016' , 'Record Keeper');
+insert into FullTime values('E22' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E23' , '12/12/2000' , 'Veternarian');
+insert into FullTime values('E24' , '12/12/2004' , 'Veternarian');
+insert into FullTime values('E26' , '5/12/2015' , 'Record Keeper');
+insert into FullTime values('E27' , '5/12/2016' , 'Record Keeper');
+
+Select * From  FullTime;
+
+=========================================================================================================================================================
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Part-Time TABLE */
+
+
+create table PartTime (
+  PID		  char(4)    Not null,
+  Reference	  varchar(15)       Not null,
+  EmergencyContact   varchar(15)      Not null,
+  Primary Key (PID));
+
+
+insert into PartTime values('E01' , 'J.Smith' , 'A.Peterson');
+insert into PartTime values('E04' , 'S.Carrell' , 'T.Brady');
+insert into PartTime values('E08' , 'J.Carrey' , 'L.Croix');
+insert into PartTime values('E09' , 'M.Freeman' , 'S.Harvey');
+insert into PartTime values('E11' , 'S.Gilmore' , 'J.Johnson');
+insert into PartTime values('E13' , 'S.Conway' , 'F.Alwag');
+insert into PartTime values('E16' , 'G.Smith' , 'K.Russell');
+insert into PartTime values('E18' , 'S.Willis' , 'S.Jobs');
+insert into PartTime values('E20' , 'T.Swanson' , 'J.Jamison');
+insert into PartTime values('E25' , 'G.Partson' , 'J.Appleseed');
+insert into PartTime values('E28' , 'P.Swindle' , 'J.Henrey');
+insert into PartTime values('E29' , 'H.Ledger' , 'P.Bunyon');
+insert into PartTime values('E30' , 'K.Wilson' , 'B.Germain');
+
+Select * From PartTime;
+
+=============================================================================================================================
+/* CREATE TABLES FOR SCALAWAGS VETERINARY CLINIC */
+
+
+/* CREATE, INSERT, AND DISPLAY THE VETERINARIANS TABLE */
+
+create table VETERINARIANS (
+   VID		varchar(4),
+   SchoolAttended	varchar(35)	Not null,
+   Specialty		varchar(35)	Not null,
+   Primary Key (VID));
+
+
+insert into VETERINARIANS values ('E02', 'UC Davis', 'Anesthesia');
+insert into VETERINARIANS values ('E05', 'Cornell', 'Animal Welfare');
+insert into VETERINARIANS values ('E06', 'CSU', 'Behavoir');
+insert into VETERINARIANS values ('E07', 'NCSU', 'Dentistry');
+insert into VETERINARIANS values ('E10', 'Ohio State', 'Emergency and Critical Care');
+insert into VETERINARIANS values ('E14', 'U of Wisconsin', 'Internal Medicine');
+insert into VETERINARIANS values ('E17', 'Texas A&M', 'Nutrition');
+insert into VETERINARIANS values ('E22', 'UPenn', 'Preventive Medicine');
+insert into VETERINARIANS values ('E23', 'U of Minnesota', 'Radiology');
+insert into VETERINARIANS values ('E24', 'Tufts', 'Surgery');
+
+Select * from VETERINARIANS;
+
+==============================================================================================================================
+/* Create, Insert, and Display the contents of the RECORD KEEPER Table */
+
+create table RECORDKEEPER (
+	RID	varchar(3),
+	DegreeObtain	integer		Not Null,
+	YrsOfExperience	smallint	Not Null,
+	Primary Key	(RID));
+
+insert into RECORDKEEPER values ('E03', 2016, 3);
+insert into RECORDKEEPER values ('E12', 2007, 12);
+insert into RECORDKEEPER values ('E13', 2006, 13);
+insert into RECORDKEEPER values ('E14', 2006, 13);
+insert into RECORDKEEPER values ('E15', 2017, 2);
+insert into RECORDKEEPER values ('E19', 2016, 3);
+insert into RECORDKEEPER values ('E21', 2016, 3);
+insert into RECORDKEEPER values ('E26', 2015, 4);
+insert into RECORDKEEPER values ('E27', 2016, 3);
+
+
+SELECT * FROM RECORDKEEPER;
+==================================================================================================================================
+/* Script for Owners and Colors */
+
+/* Create, Insert, and Display the contents of the OWNERS Table */
+
+create table OWNERS (
+	OwnerID		varchar(3),
+	FirstName	varchar(10)	Not null,
+	LastName	varchar(15)	Not null,	
+	Address		varchar(30)	Not null,
+	Phone		char(12)	Not null,
+	Street		varchar(25)	Not null,
+	City		varchar(20)	Not null,
+	State		char(2)		Not null,
+	Zip		char(5)		Not null,
+	Primary Key	(OwnerID));
+
+insert into OWNERS values ('O1', 'Dwayne', 'Johnson', '123 Johnson Street', '111-111-1111', 'Swift Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O2', 'George', 'Clooney', '124 Clooney Street', '111-111-1112', 'Clooney Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O3', 'Taylor', 'Swift', '125 Swift Street', '111-111-1113', 'Swift Street', 'Nashville', 'TN', '11113');
+insert into OWNERS values ('O4', 'Kylie', 'Jenner', '126 Jenner Street', '111-111-1114', 'Jenner Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O5', 'Floyd', 'Mayweather', '127 Mayweather Street', '111-111-1115', 'Mayweather Street', 'Las Vegas', 'NV', '11115');
+insert into OWNERS values ('O6', 'Katy', 'Perry', '128 Perry Street', '111-111-1116', 'Perry Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O7', 'Tom', 'Cruise', '129 Cruise Street', '111-111-1117', 'Cruise Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O8', 'Oprah', 'Winfrey', '130 Winfrey Street', '111-111-1118', 'Winfrey Street', 'New York', 'NY', '11112');
+insert into OWNERS values ('O9', 'Jennifer', 'Lopez', '131 Lopez Street', '111-111-1119', 'Lopez Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O10', 'Tiger', 'Woods', '132 Woods Street', '111-111-1120', 'Woods Street', 'Jupiter Island', 'FL', '11114');
+insert into OWNERS values ('O11', 'Tom', 'Hanks', '133 Hanks Street', '111-111-1121', 'Hanks Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O12', 'Leonardo', 'DiCaprio', '134 DiCaprio Street', '111-111-1112', 'DiCaprio Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O13', 'Chris', 'Evans', '135 Evans Street', '111-111-1123', 'Evans Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O14', 'Jennifer', 'Lawrence', '136 Lawrence Street', '111-111-1124', 'Lawrence Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O15', 'Robert', 'Downey Jr', '137 Downey Street', '111-111-1125', 'Downey Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O16', 'Channing', 'Tatum', '138 Tatum Street', '111-111-1126', 'Tatum Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O17', 'Margot', 'Robbie', '139 Robbie Street', '111-111-1127', 'Robbie Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O18', 'Ryan', 'Gosling', '140 Gosling Street', '111-111-1128', 'Gosling Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O19', 'Paul', 'Rudd', '141 Rudd Street', '111-111-1129', 'Rudd Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O20', 'Scarlett', 'Johansson', '142 Johansson Street', '111-111-1130', 'Johansson Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O21', 'Ryan', 'Reynolds', '143 Reynolds Street', '111-111-1131', 'Reynolds Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O22', 'Matt', 'Damon', '144 Damon Street', '111-111-1132', 'Damon Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O23', 'Will', 'Smith', '145 Smith Street', '111-111-1133', 'Smith Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O24', 'Emma', 'Stone', '146 Stone Street', '111-111-1134', 'Stone Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O25', 'Jamie', 'Foxx', '147 Foxx Street', '111-111-1135', 'Foxx Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O26', 'Jonah', 'Hill', '148 Hill Street', '111-111-1136', 'Hill Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O27', 'Ben', 'Stiller', '149 Stiller Street', '111-111-1137', 'Stiller Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O28', 'Daisy', 'Ridley', '150 Ridley Street', '111-111-1138', 'Ridley Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O29', 'Amy', 'Poehler', '151 Poehler Street', '111-111-1139', 'Poehler Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O30', 'Anna', 'Kendrick', '152 Kendrick Street', '111-111-1140', 'Kendrick Street', 'Los Angeles', 'CA', '11111');
+
+SELECT * from OWNERS;
+
+======================================================================================================================================================
+/* Script for Clients and Record Keeper */
+
+
+
+/* Create, Insert, and Display the contents of the CLIENTS Table */
+
+create table CLIENTS (
+	ClientID	char(4),
+	NameOfPet	varchar(15)	Not null,
+	Species		varchar(4)	Not null,
+	Breed		varchar(25)	Not null,
+	PetWeight	decimal(5,2)	Not null,
+	DateOfBirth	Date		Not null,
+	Gender		varchar(6)	Not Null,
+	NeuteredSpayed	varchar(3)	Not Null,
+	OwnerID		varchar(3)	Not Null,
+	Primary Key 	(ClientId),
+	Foreign Key (OwnerID) REFERENCES OWNERS (OwnerID));
+
+insert into CLIENTS values ('0001', 'Charlie', 'Dog', 'Jindo', 87.5, '15-Aug-16', 'Male', 'Yes', 'O1');
+insert into CLIENTS values ('0002', 'Max', 'Dog', 'Labrador Retriever', 102.6, '27-May-19', 'Male', 'Yes', 'O2');
+insert into CLIENTS values ('0003', 'Buddy', 'Dog', 'German Sheperd', 70.8, '28-Jan-18', 'Male', 'Yes', 'O3');
+insert into CLIENTS values ('0004', 'Archie', 'Dog', 'Golden Retriever', 165.1, '8-Mar-11', 'Male', 'Yes', 'O4');
+insert into CLIENTS values ('0005', 'Teddy', 'Dog', 'French Bulldog', 48, '10-Sep-06', 'Male', 'Yes', 'O5');
+insert into CLIENTS values ('0006', 'Toby', 'Dog', 'Beagle', 27, '12-Apr-19', 'Male', 'Yes', 'O6');
+insert into CLIENTS values ('0007', 'Bailey', 'Dog', 'Poodle', 44.9, '1-Jun-19', 'Male', 'No', 'O7');
+insert into CLIENTS values ('0008', 'Frankie', 'Dog', 'Rottweilers', 5.6, '1-Oct-19', 'Male', 'No', 'O8');
+insert into CLIENTS values ('0009', 'Bella', 'Dog', 'Siberian Husky', 122, '27-Dec-12', 'Female', 'Yes', 'O9');
+insert into CLIENTS values ('0010', 'Ruby', 'Dog', 'Pomeranian', 15, '16-Jul-19', 'Female', 'Yes', 'O10');
+insert into CLIENTS values ('0011', 'Coco', 'Dog', 'Chihuahua', 6.2, '19-Jul-19', 'Female', 'Yes', 'O11');
+insert into CLIENTS values ('0012', 'Molly', 'Dog', 'Chow Chow', 27.4, '1-Aug-19', 'Female', 'No', 'O12');
+insert into CLIENTS values ('0013', 'Bonnie', 'Dog', 'American Pit Bull Terrier', 60, '26-Feb-10', 'Female', 'Yes', 'O13');
+insert into CLIENTS values ('0014', 'Rosie', 'Dog', 'Greyhound', 57, '4-Nov-13', 'Female', 'No', 'O14');
+insert into CLIENTS values ('0015', 'Daisy', 'Dog', 'Shih Tzu', 16, '31-Mar-17', 'Female', 'Yes', 'O15');
+insert into CLIENTS values ('0016', 'Lucy', 'Cat', 'Persian', 8, '29-Sep-15', 'Female', 'No', 'O16');
+insert into CLIENTS values ('0017', 'Luna', 'Cat', 'Russian Blue', 10, '24-Apr-07', 'Female', 'Yes', 'O17');
+insert into CLIENTS values ('0018', 'Maggie', 'Cat', 'Bengal', 8.62, '21-Dec-07', 'Female', 'Yes', 'O18');
+insert into CLIENTS values ('0019', 'Kitty', 'Cat', 'British Shorthair', 9.92, '27-Feb-09', 'Female', 'Yes', 'O19');
+insert into CLIENTS values ('0020', 'Bella', 'Cat', 'Maine Coon', 7.97, '28-Aug-09', 'Female', 'Yes', 'O20');
+insert into CLIENTS values ('0021', 'Callie', 'Cat', 'Sphynx', 8.26, '9-Oct-11', 'Female', 'Yes', 'O21');
+insert into CLIENTS values ('0022', 'Chloe', 'Cat', 'Siamese', 2.6, '1-Oct-19', 'Female', 'No', 'O22');
+insert into CLIENTS values ('0023', 'Max', 'Cat', 'Munchkin', 10.6, '10-Oct-11', 'Male', 'No', 'O23');
+insert into CLIENTS values ('0024', 'Oliver', 'Cat', 'Ragdoll', 4.65, '7-Sep-19', 'Male', 'Yes', 'O24');
+insert into CLIENTS values ('0025', 'Smokey', 'Cat', 'Scottish', 7.23, '13-Jan-12', 'Male', 'Yes', 'O25');
+insert into CLIENTS values ('0026', 'Milo', 'Cat', 'Turkish Angora', 9.14, '30-May-16', 'Male', 'No', 'O26');
+insert into CLIENTS values ('0027', 'Tiger', 'Cat', 'Chartreux', 6.87, '24-Aug-18', 'Male', 'Yes', 'O27');
+insert into CLIENTS values ('0028', 'Simba', 'Cat', 'Savannah', 7.12, '5-Nov-18', 'Male', 'Yes', 'O28');
+insert into CLIENTS values ('0029', 'Smokey', 'Cat', 'Siberian', 8.83, '22-Mar-14', 'Male', 'Yes', 'O29');
+insert into CLIENTS values ('0030', 'Munkey', 'Cat', 'Toyger', 8.58, '9-Sep-17', 'Male', 'Yes', 'O30');
+
+SELECT * FROM CLIENTS;
+============================================================================================================================
+/* Create, Insert, and Display the contents of the OWNERS Table */
+
+create table COLORS (
+	ClientID	char(4),
+	PetName		varchar(15) Not null,
+	Color		varchar(5)	Not null,
+	Primary Key (ClientID, PetName),
+	Foreign Key	(ClientID) REFERENCES CLIENTS (ClientID));
+
+insert into COLORS values ('0001', 'Charlie', 'Black');
+insert into COLORS values ('0002', 'Max', 'Brown');
+insert into COLORS values ('0003', 'Buddy', 'White');
+insert into COLORS values ('0004', 'Archie', 'Gray');
+insert into COLORS values ('0005', 'Teddy', 'Black');
+insert into COLORS values ('0006', 'Toby', 'Brown');
+insert into COLORS values ('0007', 'Bailey', 'Brown');
+insert into COLORS values ('0008', 'Frankie', 'Black');
+insert into COLORS values ('0009', 'Bella', 'Brown');
+insert into COLORS values ('0010', 'Ruby', 'White');
+insert into COLORS values ('0011', 'Coco', 'Black');
+insert into COLORS values ('0012', 'Molly', 'Brown');
+insert into COLORS values ('0013', 'Bonnie', 'White');
+insert into COLORS values ('0014', 'Rosie', 'Black');
+insert into COLORS values ('0015', 'Daisy', 'Gray');
+insert into COLORS values ('0016', 'Lucy', 'White');
+insert into COLORS values ('0017', 'Luna', 'Brown');
+insert into COLORS values ('0018', 'Maggie', 'Black');
+insert into COLORS values ('0019', 'Kitty', 'Gray');
+insert into COLORS values ('0020', 'Bella', 'Gray');
+insert into COLORS values ('0021', 'Callie', 'Brown');
+insert into COLORS values ('0022', 'Chloe', 'Black');
+insert into COLORS values ('0023', 'Max', 'White');
+insert into COLORS values ('0024', 'Oliver', 'Gray');
+insert into COLORS values ('0025', 'Smokey', 'Black');
+insert into COLORS values ('0026', 'Milo', 'White');
+insert into COLORS values ('0027', 'Tiger', 'Black');
+insert into COLORS values ('0028', 'Simba', 'White');
+insert into COLORS values ('0029', 'Smokey', 'Brown');
+insert into COLORS values ('0030', 'Munkey', 'Black');
+
+SELECT * from COLORS;
+
+
+===========================================================
+/* CREATE, INSERT, AND DISPLAY TREATMENTS TABLE */
+
+create table TREATMENTS (
+   Category	varchar(50)	Not null,
+   TreatmentID	char(5)		Not null,
+   Description	varchar(50)	Not null,
+   Primary Key (TreatmentID));
+
+insert into TREATMENTS values ('Outpatient procedures', '01101', 'office visit(brief)')
+insert into TREATMENTS values ('Outpatient procedures', '01102', 'office call and exam')
+insert into TREATMENTS values ('Outpatient procedures', '01103', 'after hours emergency')
+insert into TREATMENTS values ('Outpatient procedures', '01104', 'deworming')
+insert into TREATMENTS values ('Outpatient procedures', '01105', 'nail trim')
+insert into TREATMENTS values ('Outpatient procedures', '01106', 'ear cleaning')
+insert into TREATMENTS values ('Outpatient procedures', '01107', 'express anal sacs')
+insert into TREATMENTS values ('Outpatient procedures', '01108', 'fluorescein stain')
+insert into TREATMENTS values ('Outpat	ient procedures', '01109', 'schirmer tear test')
+insert into TREATMENTS values ('Outpatient procedures', '01110', 'other(specify)')
+insert into TREATMENTS values ('Immunizations', '02201', 'DHLP')
+insert into TREATMENTS values ('Immunizations', '02202', 'canine parvovirus')
+insert into TREATMENTS values ('Immunizations', '02203', 'cainine coronavirus')
+insert into TREATMENTS values ('Immunizations', '02204', 'bordetella')
+insert into TREATMENTS values ('Immunizations', '02205', 'rabies')
+insert into TREATMENTS values ('Immunizations', '02206', 'FVRCP')
+insert into TREATMENTS values ('Immunizations', '02207', 'chlamydia')
+insert into TREATMENTS values ('Immunizations', '02208', 'feline leukemia')
+insert into TREATMENTS values ('Immunizations', '02209', 'other(specify)')
+insert into TREATMENTS values ('Laboratory', '03301', 'intestinal worm test')
+insert into TREATMENTS values ('Laboratory', '03302', 'heartworm test')
+insert into TREATMENTS values ('Laboratory', '03303', 'leukemia test')
+insert into TREATMENTS values ('Laboratory', '03304', 'complete urinalysis')
+insert into TREATMENTS values ('Laboratory', '03305', 'microscopic exam')
+insert into TREATMENTS values ('Laboratory', '03350', 'skin scrape')
+insert into TREATMENTS values ('Laboratory', '03351', 'ear mite check')
+insert into TREATMENTS values ('Laboratory', '03352', 'cytoloty')
+insert into TREATMENTS values ('Laboratory', '03306', 'DNA test')
+insert into TREATMENTS values ('Radiology', '04401', 'general x-rays')
+insert into TREATMENTS values ('Radiology', '04402', 'special procedures')
+insert into TREATMENTS values ('Prescriptions', '05501', 'Acepromazine 25MG')
+
+/*--Last three row doesn't work because of duplication
+insert into TREATMENTS values ('Prescriptions', '05501', 'Atopica 100MG')
+insert into TREATMENTS values ('Prescriptions', '05501', 'Carprofen 100MG')
+insert into TREATMENTS values ('Prescriptions', '05501', 'Clavamox 375MG')*/
+
+Select * from TREATMENTS;
+==============================================================================================================
+
+/* CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE VISITS TABLE */
+
+
+/* CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE VISITS TABLE */
+
+
+create table VISITS (
+DateofVisit 	Date 		Not null,
+ReasonforVisit 	varchar(30) 	Not null,
+Visit# 		varchar(10) 	Not null,
+ClientID 	char(4)	 	Not null,	
+EmployeeID 	varchar(4)	Not null,
+TreatmentID 	char(5)	 	Not null,
+Primary Key (Visit#),
+Foreign Key (TreatmentID) REFERENCES TREATMENTS (TreatmentID),
+Foreign Key (EmployeeID) REFERENCES VETERINARIANS (VID),
+Foreign Key (ClientID) REFERENCES CLIENTS (ClientID));
+
+
+insert into VISITS values ( '4-Jan-19', 'Parvo', 'opp0001', '0001', 'E02', '01101');
+insert into VISITS values ( '4-Jan-19', 'Carona', 'opp0002', '0002', 'E05' , '01102');
+insert into VISITS values ( '7-Jan-19', 'Bordetella', 'opp0003', '0003', 'E06', '01103');
+insert into VISITS values ( '8-Jan-19', 'Rabies', 'opp0004', '0004', 'E07', '01104');
+insert into VISITS values ( '8-Jan-19', 'Feline Distemper', 'opp0005', '0005', 'E10', '01105');
+insert into VISITS values ( '10-Jan-19', 'Rabies', 'opp0006', '0006', 'E14', '01106');
+insert into VISITS values ( '14-Jan-19', 'Leukemia', 'imm0001', '0007', 'E17', '02201');
+insert into VISITS values ( '14-Jan-19', 'Medicine Care', 'imm0002', '0008', 'E22', '02202');
+insert into VISITS values ( '15-Jan-19', 'Leukemia', 'imm0003', '0009', 'E23', '02203');
+insert into VISITS values ( '16-Jan-19', 'Carona', 'imm0004', '0010', 'E24', '02204');
+insert into VISITS values ( '17-Jan-19', 'Medicine Care', 'imm0005', '0011', 'E06', '02205');
+insert into VISITS values ( '18-Jan-19', 'Leukemia', 'imm0006', '0012', 'E22', '02206');
+insert into VISITS values ( '22-Jan-19', 'Feline Distemper', 'lab0001', '0013', 'E02', '03301');
+insert into VISITS values ( '22-Jan-19', 'Carona', 'lab0002', '0014', 'E05', '03302');
+insert into VISITS values ( '24-Jan-19', 'Medicine Care', 'lab0003', '0015', 'E14', '03303');
+insert into VISITS values ( '25-Jan-19', 'Feline Distemper', 'lab0004', '0016', 'E17', '03304');
+insert into VISITS values ( '28-Jan-19', 'Medicine Care', 'lab0005', '0017', 'E05', '03305');
+insert into VISITS values ( '30-Jan-19', 'Leukemia', 'lab0006', '0018', 'E14', '03306');
+insert into VISITS values ( '1-Feb-19', 'Parvo', 'rad0001', '0019', 'E07', '04401');
+insert into VISITS values ( '1-Feb-19', 'Feline Distemper', 'rad0002', '0020', 'E22', '04401');	
+insert into VISITS values ( '5-Feb-19', 'Leukemia', 'rad0003', '0021', 'E05', '04401');
+insert into VISITS values ( '6-Feb-19', 'Parvo', 'rad0004', '0022', 'E10', '04402');
+insert into VISITS values ( '7-Feb-19', 'Medicine Care', 'rad0005', '0023', 'E14', '04402');
+insert into VISITS values ( '8-Feb-19', 'Leukemia' ,'rad0006', '0024', 'E24', '04402');
+insert into VISITS values ( '13-Feb-19', 'Feline Distemper', 'prx0001', '0025', 'E07', '05501');
+insert into VISITS values ( '15-Feb-19', 'Leukemia', 'prx0002', '0026', 'E17', '05501');
+insert into VISITS values ( '19-Feb-19', 'Medicine Care', 'prx0003', '0027', 'E10', '05501');
+insert into VISITS values ( '20-Feb-19', 'Feline Distemper', 'prx0004', '0028', 'E22', '05501');
+insert into VISITS values ( '21-Feb-19', 'Parvo', 'prx0005', '0029', 'E24', '05501');
+insert into VISITS values ( '22-Feb-19', 'Parvo', 'prx0006', '0030', 'E14', '05501');
+insert into VISITS values ( '25-Feb-19', 'Parvo', 'opp0007', '0001', 'E02', '01101');
+insert into VISITS values ( '25-Feb-19', 'Carona', 'opp0008', '0002', 'E05' , '01102');
+insert into VISITS values ( '26-Feb-19', 'Bordetella', 'opp0009', '0003', 'E06', '01103');
+insert into VISITS values ( '27-Feb-19', 'Rabies', 'opp0010', '0004', 'E07', '01104');
+insert into VISITS values ( '28-Feb-19', 'Feline Distemper', 'opp0011', '0005', 'E10', '01105');
+insert into VISITS values ( '1-Mar-19', 'Rabies', 'opp0012', '0006', 'E14', '01106');
+insert into VISITS values ( '1-Mar-19', 'Leukemia', 'imm0007', '0007', 'E17', '02201');
+insert into VISITS values ( '4-Mar-19', 'Medicine Care', 'imm0008', '0008', 'E22', '02202');
+insert into VISITS values ( '4-Mar-19', 'Leukemia', 'imm0009', '0009', 'E23', '02203');
+insert into VISITS values ( '5-Mar-19', 'Carona', 'imm0010', '0010', 'E24', '02204');
+insert into VISITS values ( '6-Mar-19', 'Medicine Care', 'imm0011', '0011', 'E06', '02205');
+insert into VISITS values ( '7-Mar-19', 'Leukemia', 'imm0012', '0012', 'E22', '02206');
+insert into VISITS values ( '7-Mar-19', 'Feline Distemper', 'lab0007', '0013', 'E02', '03301');
+insert into VISITS values ( '8-Mar-19', 'Carona', 'lab0008', '0014', 'E05', '03302');
+insert into VISITS values ( '8-Mar-19', 'Medicine Care', 'lab0009', '0015', 'E14', '03303');
+insert into VISITS values ( '11-Mar-19', 'Feline Distemper', 'lab0010', '0016', 'E17', '03304');
+insert into VISITS values ( '12-Mar-19', 'Medicine Care', 'lab0011', '0017', 'E05', '03305');
+insert into VISITS values ( '13-Mar-19', 'Leukemia', 'lab0012', '0018', 'E14', '03306');
+insert into VISITS values ( '14-Mar-19', 'Parvo', 'rad0007', '0019', 'E07', '04401');
+insert into VISITS values ( '15-Mar-19', 'Feline Distemper', 'rad0008', '0020', 'E22', '04401');
+insert into VISITS values ( '15-Mar-19', 'Leukemia', 'rad0009', '0021', 'E05', '04401');
+insert into VISITS values ( '18-Mar-19', 'Parvo', 'rad0010', '0022', 'E10', '04402');
+insert into VISITS values ( '18-Mar-19', 'Medicine Care', 'rad0011', '0023', 'E14', '04402');
+insert into VISITS values ( '19-Mar-19', 'Leukemia' ,'rad0012', '0024', 'E24', '04402');
+insert into VISITS values ( '19-Mar-19', 'Feline Distemper', 'prx0007', '0025', 'E07', '05501');
+insert into VISITS values ( '20-Mar-19', 'Leukemia', 'prx0008', '0026', 'E17', '05501');
+insert into VISITS values ( '21-Mar-19', 'Medicine Care', 'prx0009', '0027', 'E10', '05501');
+insert into VISITS values ( '25-Mar-19', 'Feline Distemper', 'prx0010', '0028', 'E22', '05501');
+insert into VISITS values ( '26-Mar-19', 'Parvo', 'prx0011', '0029', 'E24', '05501');
+insert into VISITS values ( '26-Mar-19', 'Parvo', 'prx0012', '0030', 'E14', '05501');
+
+
+Select * from VISITS;
+
+
+=========================================================================================================
+/* CREATE, INSERT, AND DISPLAY VISITITEMS *//* CREATE, INSERT, AND DISPLAY VISITITEMS */
+
+
+create table VISITITEMS (
+   TreatmentID		char(5),
+   Visit#		varchar(10)	Not null,
+   Description		varchar(30)	Not null,
+   Price		decimal(7,2)	Not null,
+   Primary Key (TreatmentID, Visit#),
+   Foreign Key (TreatmentID) REFERENCES TREATMENTS (TreatmentID),
+   Foreign Key (Visit#) REFERENCES VISITS (Visit#));
+
+insert into VISITITEMS values ('01101', 'opp0001', 'office visit(brief)', 45.00);
+insert into VISITITEMS values ('01102', 'opp0002', 'office call and exam', 55.00);
+insert into VISITITEMS values ('01103', 'opp0003', 'after hours emergency', 500.00);
+insert into VISITITEMS values ('01104', 'opp0004', 'deworming', 50.00);
+insert into VISITITEMS values ('01105', 'opp0005', 'nail trim', 20.00);
+insert into VISITITEMS values ('01106', 'opp0006', 'ear cleaning', 25.00);
+insert into VISITITEMS values ('02201', 'imm0001', 'DHLP', 60.00);
+insert into VISITITEMS values ('02202', 'imm0002', 'canine parvovirus', 90.00);
+insert into VISITITEMS values ('02203', 'imm0003', 'cainine coronavirus', 30.00);
+insert into VISITITEMS values ('02204', 'imm0004', 'bordetella', 15.00);
+insert into VISITITEMS values ('02205', 'imm0005', 'rabies', 55.00);
+insert into VISITITEMS values ('02206', 'imm0006', 'FVRCP', 60.00);
+insert into VISITITEMS values ('03301', 'lab0001', 'intestinal worm test', 45.00);
+insert into VISITITEMS values ('03302', 'lab0002', 'heartworm test', 60.00);
+insert into VISITITEMS values ('03303', 'lab0003', 'leukemia test', 180.00);
+insert into VISITITEMS values ('03304', 'lab0004', 'complete urinalysis', 60.00);
+insert into VISITITEMS values ('03305', 'lab0005', 'microscopic exam', 90.00);
+insert into VISITITEMS values ('03350', 'lab0005', 'skin scrape', 40.00);
+insert into VISITITEMS values ('03351', 'lab0005', 'ear mite check', 30.00);
+insert into VISITITEMS values ('03352', 'lab0005', 'cytoloty', 50.00);
+insert into VISITITEMS values ('03306', 'lab0006', 'DNA test', 80.00);
+insert into VISITITEMS values ('04401', 'rad0001', 'general x-rays', 50.00); 	
+insert into VISITITEMS values ('04401', 'rad0002', 'general x-rays', 40.00);
+insert into VISITITEMS values ('04401', 'rad0003', 'general x-rays', 60.00);
+insert into VISITITEMS values ('04402', 'rad0004', 'special procedures', 180.00);
+insert into VISITITEMS values ('04402', 'rad0005', 'special procedures', 160.00);
+insert into VISITITEMS values ('04402', 'rad0006', 'special procedures', 200.00);
+insert into VISITITEMS values ('05501', 'prx0001', 'Acepromazine 25MG', 20.81);
+insert into VISITITEMS values ('05501', 'prx0002', 'Atopica 100MG', 149.14);
+insert into VISITITEMS values ('05501', 'prx0003', 'Carprofen 100MG', 53.92);
+insert into VISITITEMS values ('05501', 'prx0004', 'Clavamox 375MG', 91.23);
+insert into VISITITEMS values ('05501', 'prx0005', '5.01Deramaxx 100MG', 101.91);
+insert into VISITITEMS values ('05501', 'prx0006', '5.01Zeniquin 100MG', 110.13);
+
+Select * from VISITITEMS;
+================================================================================================
+/* CREATE, INSERT, AND DISPLAY BOARDING INFO */
+
+
+create table BOARDINGINFO (
+   ClientID			char(4),
+   EmployeeID			char(4)		Not null,
+   DateIn			Date		Not null,
+   DateOut			Date		Not null,
+   VaccinationCheck		varchar(3)	Not null,
+   TreatmentID			char(5)		Not null,
+   Visit#				varchar(10) Not null,
+   Primary Key (ClientID, Visit#),
+   Foreign Key (ClientID) REFERENCES CLIENTS (ClientID),
+   Foreign Key (Visit#) REFERENCES VISITS (Visit#));
+
+insert into BOARDINGINFO values ('0001', 'E03', '2019-01-04', '2019-01-09', 'yes', '01101', 'opp0001');
+insert into BOARDINGINFO values ('0002', 'E12', '2019-01-04', '2019-01-06', 'yes', '01102', 'opp0002'); 
+insert into BOARDINGINFO values ('0003', 'E13', '2019-01-07', '2019-01-08', 'yes', '01103', 'opp0003');
+insert into BOARDINGINFO values ('0004', 'E14', '2019-01-08', '2019-01-09', 'yes', '01104', 'opp0004');
+insert into BOARDINGINFO values ('0005', 'E15', '2019-01-08', '2019-01-09', 'yes', '01105', 'opp0005');
+insert into BOARDINGINFO values ('0006', 'E19', '2019-01-10', '2019-01-11', 'yes', '01106', 'opp0006');
+insert into BOARDINGINFO values ('0007', 'E21', '2019-01-14', '2019-01-15', 'yes', '02201', 'imm0001');
+insert into BOARDINGINFO values ('0008', 'E26', '2019-01-14', '2019-01-15', 'yes', '02202', 'imm0002');
+insert into BOARDINGINFO values ('0009', 'E27', '2019-01-15', '2019-01-16', 'yes', '02203', 'imm0003');
+insert into BOARDINGINFO values ('0010', 'E03', '2019-01-16', '2019-01-17', 'yes', '02204', 'imm0004');
+insert into BOARDINGINFO values ('0011', 'E12', '2019-01-17', '2019-01-18', 'yes', '02205', 'imm0005');
+insert into BOARDINGINFO values ('0012', 'E13', '2019-01-18', '2019-01-19', 'yes', '02206', 'imm0006');
+insert into BOARDINGINFO values ('0013', 'E14', '2019-01-22', '2019-01-23', 'yes', '03301', 'lab0001');
+insert into BOARDINGINFO values ('0014', 'E15', '2019-01-22', '2019-01-23', 'yes', '03302', 'lab0002');
+insert into BOARDINGINFO values ('0015', 'E19', '2019-01-24', '2019-01-25', 'yes', '03303', 'lab0003');
+insert into BOARDINGINFO values ('0016', 'E21', '2019-01-25', '2019-01-26', 'yes', '03304', 'lab0004');
+insert into BOARDINGINFO values ('0017', 'E26', '2019-01-28', '2019-01-29', 'yes', '03305', 'lab0005');
+insert into BOARDINGINFO values ('0018', 'E27', '2019-01-30', '2019-01-31', 'yes', '03306', 'lab0006');
+insert into BOARDINGINFO values ('0019', 'E03', '2019-02-01', '2019-02-02', 'yes', '04401', 'rad0001');
+insert into BOARDINGINFO values ('0020', 'E12', '2019-02-01', '2019-02-02', 'yes', '04402', 'rad0002');
+insert into BOARDINGINFO values ('0021', 'E13', '2019-02-05', '2019-02-06', 'yes', '04403', 'rad0003');
+insert into BOARDINGINFO values ('0022', 'E14', '2019-02-06', '2019-02-07', 'yes', '04404', 'rad0004');
+insert into BOARDINGINFO values ('0023', 'E15', '2019-02-07', '2019-02-08', 'yes', '04405', 'rad0005');
+insert into BOARDINGINFO values ('0024', 'E19', '2019-02-08', '2019-02-09', 'yes', '04406', 'rad0006');
+insert into BOARDINGINFO values ('0025', 'E21', '2019-02-13', '2019-02-14', 'yes', '05501', 'prx0001');
+insert into BOARDINGINFO values ('0026', 'E26', '2019-02-15', '2019-02-16', 'yes', '05502', 'prx0002');
+insert into BOARDINGINFO values ('0027', 'E27', '2019-02-19', '2019-02-20', 'yes', '05503', 'prx0003');
+insert into BOARDINGINFO values ('0028', 'E03', '2019-02-20', '2019-02-21', 'yes', '05504', 'prx0004');
+insert into BOARDINGINFO values ('0029', 'E12', '2019-02-21', '2019-02-22', 'yes', '05505', 'prx0005');
+insert into BOARDINGINFO values ('0030', 'E13', '2019-02-22', '2019-02-23', 'yes', '05506', 'prx0006');
+
+Select * from BOARDINGINFO;
+/*=================================================================================================================== */
+
+/* Milestone 3, Basic Queries */
+--List Employees Table
+SELECT *
+	From EMPLOYEES;
+
+--List FullTime Table
+SELECT *
+	FROM FullTime;
+
+--List PartTime Table
+SELECT *
+	FROM PartTime;
+
+--List Veterinarians Table
+SELECT *
+	FROM VETERINARIANS;
+
+--List RecordKeeper Table
+SELECT *
+	FROM RECORDKEEPER;
+
+--List Owner Table
+SELECT *
+	FROM OWNERS;
+
+--List Colors Table
+SELECT *
+	FROM COLORS;
+
+--List Visits Table
+SELECT *
+	FROM VISITS;
+
+--List Treatements Table
+SELECT *
+	FROM TREATMENTS;
+
+--List Visit Items Table
+SELECT *
+	FROM VISITITEMS;
+
+/*===================================================================================================================*/
+/* Milestone 4 Test Queries */
+---Group By Having queries
+
+Select FirstName, LastName, count(visit#) as "Number of visit#"
+	From Owners O Join Clients C
+			on O.ownerID = C.ownerId
+		      Join Visits V
+			on C.ClientId = V .ClientId
+				group by Firstname,LastName
+				Having count(visit#)>1
+Order by 2;
+
+==============================================
+Select Species, count(NeuteredSpayed)
+	From Clients C JOIN OWNERS O
+		ON C.OwnerID = O.OwnerID
+	Where NeuteredSpayed Like 'Yes'
+		Group by Species
+			Having count(NeuteredSpayed) > 1
+Order by 2;
+
+=========================================================
+Select T.TreatmentID, Description, count(T.TreatmentID) as "Number of TreatmentID"
+	From TREATMENTS T JOIN VISITS V
+		on T.TreatmentID = V.TreatmentID
+			group by T.TreatmentID, Description
+			Having count(T.TreatmentID) > 2;
+
+=========================================================
+--Employees that have worked on cats
+Select EmployeeID, LName, Etype
+	From Employees
+		Where EmployeeID in
+			(Select EmployeeID
+				From Visits
+					Where ClientId in
+						(Select ClientId
+							From Clients
+								Where Species = 'Cat'));
+
+====================================================================
+--Owners whose pets where helped by employee E03 
+Select OwnerID, FirstName, LastName
+	From OWNERS O, EMPLOYEES
+		Where OwnerID IN
+			(Select OwnerID
+				From Clients
+					Where ClientID IN
+						(Select ClientID
+							From Visits
+								WHERE EmployeeID IN
+									(SELECT VID 
+										FROM VETERINARIANS
+											WHERE VID IN
+												(SELECT FID
+													FROM FullTime
+														WHERE FID IN												(SELECT EmployeeID												FROM EMPLOYEES)))))
+							AND EmployeeID = 'E03';
+========================================================================
+--Name and breed of all the dogs
+Select NameOfPet, Breed
+	From Clients
+		Where ClientID in
+			(Select ClientID
+				From Visits
+					Where ClientId in
+						(Select ClientId
+							From Clients
+								Where Species = 'Dog'));
+
+
+/*Basic Test 1*/
+insert into CLIENTS values ('0031', 'Hulk', 'Dog', 'Pit Bull', 175, '2013-09-07', 'Male', 'No', 'O1');
+insert into BOARDINGINFO values ('0031', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+
+SELECT*
+	FROM BOARDINGINFO
+
+/*Basic Test 2*/
+insert into BOARDINGINFO values ('0032', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+insert into CLIENTS values ('0032', 'Rulk', 'Dog', 'Pit Bull', 170, '2013-09-07', 'Male', 'No', 'O1');
+
+/*Basic Test 3*/
+insert into CLIENTS values ('0033', 'Bulk', 'Dog', 'Pit Bull', 180, '2013-09-07', 'No', 'O1');
+
+/*Basic Test 4*/
+Create View Basic_Test4 As
+	SELECT v.DateOfVisit, v.ReasonforVisit, v.Visit#, v.ClientID, v.EmployeeID, v.TreatmentID, vi.Price
+		FROM Visits v Join VisitItems vi
+			      On v.Visit# = vi.Visit#
+			      And v.TreatmentID = vi.TreatmentID
+
+/*Basic Test 5*/
+DELETE FROM Clients	
+	WHERE ClientID = '0001'
+
+/*Basic Test 6*/
+insert into EMPLOYEES values ('E31' , 'Bruce' , 'Banner' , '1234 Wilshire Blvd.' , '4804705900' , 30 , '11/10/2019' , 0 , 'Full-Time');
+
+SELECT*
+	FROM EMPLOYEES
+
+/*Basic Test 7*/
+DELETE FROM Clients	
+	WHERE ClientID = '0007'
+
+/*Basic Test 8*/
+insert into CLIENTS values ('0034', 'Shulk', 'Dog', 'Pit Bull', 150, '2013-09-07', 'No', 'O32');
+
+/*Basic Test 9*/
+insert into BOARDINGINFO values ('0034', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+insert into CLIENTS values ('0034', 'Shulk', 'Dog', 'Pit Bull', 150, '2013-09-07', 'Female', 'No', 'O32');
+
+/*Basic Test 10*/
+insert into OWNERS values ('O31', 'Kimbo', 'Slice', '696 Brawl Street', '123-888-1180', 'Brawl Street', 'Los Angeles', 'CA');
+
+========================================================================
+/* For each visit, list the client, the owner, the vet who worked on the animal, and the treatment performed. Also include cost of treatment and total cost of visit*/
+
+Create View EACH_VISIT As
+	SELECT v.Visit#, c.NameOfPet as 'Client', o.LastName as 'Owner', e.LName as 'Vets', 
+		vi.description as 'Treatment', vi.Price as 'Cost'
+		FROM Clients c Join Visits v
+						On c.ClientId = v.ClientID
+						Join Owners o
+						On c.OwnerID = o.OwnerID
+						Join Veterinarians ve
+						On ve.VID = v.EmployeeID
+						Join FullTime ft
+						On ve.VID = ft.FID
+						Join Employees e
+						On ft.FID = e.EmployeeID
+						Join VisitItems vi
+						On vi.TreatmentID = v.TreatmentID
+						And vi.Visit# = v.Visit#
+
+SELECT*
+	FROM EACH_VISIT
+========================================================================
+/* Create view for each client how many times they've visited the clinic*/
+
+Create View NumClients As
+	Select E.FName, E.LName, V.reasonforVisit, Count(V.Visit#) as 'NumOfVisit'
+		From Employees E join Visits V
+				on E.EmployeeID = V.EmployeeID
+			Group By E.FName, E.LName, V.reasonforvisit
+			Having Count(V.Visit#) > 1;
+
+SELECT *
+	FROM NumClients
+
+=========================================================================================
+/*Which employees were working when a specific client was boarded?*/
+
+Create View Caretakers As
+	Select O.OwnerId, O.LastName, C.NameofPet, E.employeeID, E.LName as 'Caretaker'
+		From Clients C Join Owners O
+				on C.OwnerID = O.OwnerID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId;
+
+SELECT *
+	FROM Caretakers
+
+/*=================================================================================================================================*/
+/* Milestone 5 scripts */
+/*Section 1: Transactions Overview */
+
+/* 1. adding a new Client record in for after hour emergency for OWNERS, CLIENTS, COLORS, VISITS, VISITITEMS, BOARDINGINFO*/
+BEGIN TRANSACTION;
+
+INSERT INTO OWNERS
+	VALUES ('O31', 'Kathleen', 'Moser', '1365 N Scottsdale Rd.', '480-965-3252', 'Scottsdale', 'Phoenix', 'AZ', '85257');
+INSERT INTO CLIENTS
+	VALUES ('0033', 'Karl', 'Dog', 'Bernese Mountain Dog', 60.34, '26-Dec-11', 'Male', 'No', 'O31');
+INSERT INTO COLORS
+	VALUES ('0033', 'Karl', 'Black');
+INSERT INTO VISITS
+	VALUES (GETDATE(), 'Neutered', 'opp0013', '0033', 'E32', '01101');
+INSERT INTO VISITITEMS
+	VALUES ('01101', 'opp0013', 'after-hours emergency', 100.00);
+INSERT INTO BOARDINGINFO
+	VALUES ('0033', 'E33', GETDATE(), GETDATE() + 1, 'yes', '01101', 'opp0013');
+
+SELECT *
+	FROM OWNERS
+		WHERE OwnerID = 'O31';
+SELECT *
+	FROM CLIENTS
+		WHERE ClientID = '0033';
+SELECT *
+	FROM COLORS
+		WHERE ClientID = '0033';
+SELECT *
+	FROM VISITS
+		WHERE Visit# = 'opp0013';
+SELECT *
+	FROM VISITITEMS
+		WHERE Visit# = 'opp0013';
+SELECT *
+	FROM BOARDINGINFO
+		WHERE ClientID = '0033';
+
+
+
+/* 2. adding a new vet record in EMPLOYEES, FullTime and VETERINARIANS */
+BEGIN TRANSACTION;
+
+INSERT INTO EMPLOYEES
+	VALUES ('E32', 'Kathleen', 'Moser', '1365 N Scottsdale Rd.', '4809653252', 17, GETDATE(), 0, 'Full-Time');
+INSERT INTO FullTime
+	VALUES ('E32', '5/12/2019', 'Veternarian');
+INSERT INTO VETERINARIANS
+	VALUES ('E32', 'ASU', 'Surgery');
+
+SELECT *
+	FROM EMPLOYEES
+		WHERE EmployeeID = 'E32';
+SELECT *
+	FROM FullTime
+		WHERE FID = 'E32';
+SELECT *
+	FROM VETERINARIANS
+		WHERE VID = 'E32';
+COMMIT;		
+=================================================================================================================================
+/* Section 2: Triggers/Stored Procedures Overview */
+
+/*Triggers*/
+/* Updates days absent after : When an employee is absent from work, add
+ the info to the Days Absent table and then automatically increment the days absent statusin the Employee table.*/
+
+Create Trigger AbsentUpdate
+	on ABSENTLOG
+	After Insert
+As	
+	Update EMPLOYEES
+		Set DaysAbsent = DaysAbsent +1
+			Where EmployeeID = 
+				(Select EmployeeID
+					From inserted);
+
+/*Procedures*/
+/* CREATE ClientNeuteredLog TABLE */
+
+create table ClientNeuteredLog (
+	ClientID		char(4)		Not null,
+	NameOfPet		varchar(15)	Not null,
+	DateOfBirth		Date		Not null,
+	DateNeutered	datetime	DEFAULT	GETDATE(),
+	Primary Key (ClientID));
+
+=========================================
+
+/* CREATE PROCEDURE FOR ClientNeutered */
+
+CREATE PROCEDURE ClientNeutered
+	@ClientID		char(4),
+	@NameOfPet		varchar(15),
+	@DateOfBirth		Date,
+	@DateNeutered	datetime
+AS
+BEGIN
+	INSERT INTO ClientNeuteredLog (ClientID, NameOfPet, DateOfBirth, DateNeutered)
+	VALUES (@ClientID, @NameOfPet, @DateOfBirth, @DateNeutered)
+END
+GO 
+
+==========================================
+
+/* ClientNeutered Procedure Testing */
+insert into VISITS values ( '26-Nov-19', 'sterilize', 'opp0014', '0008', 'E02', '01101');
+
+exec ClientNeutered
+	@ClientID	= '0008',
+	@NameOfPet	= 'Frankie',
+	@DateOfBirth = '1-Oct-19',
+	@DateNeutered = '26-Nov-19'
+
+SELECT *
+	FROM ClientNeuteredLog;
+
+SELECT *
+	FROM VISITS
+==================================================================================================================================
+/* Section 3: Indexes */
+
+/*Advanced query that selects  the pet name and the owner name and number of visits*/
+Set Statistics time On;
+Go
+Select NameOfPet,FirstName, LastName, count(Visit#) "Number of Visits"
+	from Clients C JOin OWNERS O
+		On C.OwnerID = O.OwnerID
+		Join VISITS V
+		On C.ClientID = V.ClientID
+			Where PetWeight < 60.00
+				Group By NameOfPet,FirstName, LastName
+				Having count(Visit#) >= 1
+Order By 1;
+Go 
+Set Statistics time off;
+Go
+==================================================================================================================================
+/*Section 4: Analytics Dashboard Overview */
+/* Create View for dog, cat and total business */
+
+Create view DogBusiness As
+	Select species,Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.TreatmentID = VI.TreatmentID
+				where Species = 'dog';
+Select *
+	From DogBusiness;
+
+
+
+
+
+Create view CatBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				where Species = 'cat';
+
+
+
+Create view TotalBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.Visit# = VI.Visit#;
+/*==================================================================================================================================*/
+/* Team IC-10 Views */
+
+/* Create View Dog Business */
+Create view DogBusiness As
+	Select species,Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.TreatmentID = VI.TreatmentID
+				where Species = 'dog';
+Select *
+	From DogBusiness;
+
+=================================================================================================
+/* Create Veiw Cat Business */
+Create view CatBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.Visit# = VI.Visit#
+				where Species = 'cat';
+
+====================================================================================================
+/* creates view Total Business */
+Create view TotalBusiness As
+	Select Species, Breed, ReasonforVisit, month(dateofVisit) as "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+					where DateofVisit >= '2019-01-01' and DateofVisit < '2019-04-01';
+	
+
+SELECT *
+	FROM TotalBusiness
+	ORDER BY 4;
+/*==============================================================================================================================================*/
+/* Team IC-11 Indexes*/
+
+/*Creating a Unique key index on Clients.
+Reason for using ClientID is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX clientIDX ON Clients (ClientID);
+
+====================================================================================
+
+/*Creating a secondary key index on Clients.
+Reason for using NameOfPet is because it is the most commonly searched attribute*/
+
+CREATE INDEX nameIDX ON Clients (NameOfPet);
+
+
+====================================================================================
+
+/*Creating a secondary key index on Clients.
+Reason for using PetWeight is because it is the most commonly searched attribute*/
+
+CREATE INDEX weightIDX ON Clients (PetWeight);
+
+=====================================================================================
+
+/*Creating a Unique key index on owners.
+Reason for using OwnerID is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX ownerIDX ON Owners (OwnerID);
+
+======================================================================================
+
+/*Creating a secondary key index on owners.
+Reason for using FirstName is because it is the most commonly searched attribute*/
+
+CREATE INDEX fownerIDX ON Clients (FirstName);
+
+========================================================================================
+
+/*Creating a secondary key index on owners.
+Reason for using LastName is because it is the most commonly searched attribute*/
+
+CREATE INDEX lownerIDX ON Clients (LastName);

@@ -1,0 +1,40 @@
+/*Creating a Unique key index on Clients.
+Reason for using ClientID is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX clientIDX ON Clients (ClientID);
+
+====================================================================================
+
+/*Creating a secondary key index on Clients.
+Reason for using NameOfPet is because it is the most commonly searched attribute*/
+
+CREATE INDEX nameIDX ON Clients (NameOfPet);
+
+
+====================================================================================
+
+/*Creating a secondary key index on Clients.
+Reason for using PetWeight is because it is the most commonly searched attribute*/
+
+CREATE INDEX weightIDX ON Clients (PetWeight);
+
+=====================================================================================
+
+/*Creating a Unique key index on owners.
+Reason for using OwnerID is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX ownerIDX ON Owners (OwnerID);
+
+======================================================================================
+
+/*Creating a secondary key index on owners.
+Reason for using FirstName is because it is the most commonly searched attribute*/
+
+CREATE INDEX fownerIDX ON Clients (FirstName);
+
+========================================================================================
+
+/*Creating a secondary key index on owners.
+Reason for using LastName is because it is the most commonly searched attribute*/
+
+CREATE INDEX lownerIDX ON Clients (LastName);

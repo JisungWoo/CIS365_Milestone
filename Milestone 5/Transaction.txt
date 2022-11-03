@@ -1,0 +1,59 @@
+/* adding a new Client record in for after hour emergency for OWNERS, CLIENTS, COLORS, VISITS, VISITITEMS, BOARDINGINFO*/
+BEGIN TRANSACTION;
+
+INSERT INTO OWNERS
+	VALUES ('O31', 'Kathleen', 'Moser', '1365 N Scottsdale Rd.', '480-965-3252', 'Scottsdale', 'Phoenix', 'AZ', '85257');
+INSERT INTO CLIENTS
+	VALUES ('0033', 'Karl', 'Dog', 'Bernese Mountain Dog', 60.34, '26-Dec-11', 'Male', 'No', 'O31');
+INSERT INTO COLORS
+	VALUES ('0033', 'Karl', 'Black');
+INSERT INTO VISITS
+	VALUES (GETDATE(), 'Neutered', 'opp0013', '0033', 'E32', '01101');
+INSERT INTO VISITITEMS
+	VALUES ('01101', 'opp0013', 'after-hours emergency', 100.00);
+INSERT INTO BOARDINGINFO
+	VALUES ('0033', 'E33', GETDATE(), GETDATE() + 1, 'yes', '01101', 'opp0013');
+
+SELECT *
+	FROM OWNERS
+		WHERE OwnerID = 'O31';
+SELECT *
+	FROM CLIENTS
+		WHERE ClientID = '0033';
+SELECT *
+	FROM COLORS
+		WHERE ClientID = '0033';
+SELECT *
+	FROM VISITS
+		WHERE Visit# = 'opp0013';
+SELECT *
+	FROM VISITITEMS
+		WHERE Visit# = 'opp0013';
+SELECT *
+	FROM BOARDINGINFO
+		WHERE ClientID = '0033';
+
+
+
+
+
+/* adding a new vet record in EMPLOYEES, FullTime and VETERINARIANS */
+BEGIN TRANSACTION;
+
+INSERT INTO EMPLOYEES
+	VALUES ('E32', 'Kathleen', 'Moser', '1365 N Scottsdale Rd.', '4809653252', 17, GETDATE(), 0, 'Full-Time');
+INSERT INTO FullTime
+	VALUES ('E32', '5/12/2019', 'Veternarian');
+INSERT INTO VETERINARIANS
+	VALUES ('E32', 'ASU', 'Surgery');
+
+SELECT *
+	FROM EMPLOYEES
+		WHERE EmployeeID = 'E32';
+SELECT *
+	FROM FullTime
+		WHERE FID = 'E32';
+SELECT *
+	FROM VETERINARIANS
+		WHERE VID = 'E32';
+COMMIT;		

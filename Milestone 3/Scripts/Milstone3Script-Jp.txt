@@ -1,0 +1,104 @@
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Employee TABLE */
+
+create table EMPLOYEES (
+   EID		char(4),
+   FName	varchar(20)	Not null,
+   LName	varchar(20)	Not null,
+   Address	varchar(25)	Not null,
+   Phone	char(12)	Not null,
+   payRate	char(10)	Not null,
+   StartDate    Date            Not null,
+   EType        varchar(15)     Not null,
+   Primary Key (EID));
+
+
+insert into EMPLOYEES values ('E01' , 'Jimmy' , 'Fallon' , '123 Fallon St.' , '4801230000' , '20' , '12/17/2014' , '1' , 'Part-Time');
+insert into EMPLOYEES values ('E02' , 'Jimmy' , 'Kimmel' , '145 Fallon St.' , '4801230001' , '19' , '1/17/2013' , '13' , 'Full-Time');
+insert into EMPLOYEES values ('E03' , 'Bob' , 'Vance' , '6783 Vance St.' , '4801230002' , '20' , '1/17/2012' , '6' , 'Full-Time');
+insert into EMPLOYEES values ('E04' , 'Zach' , 'Efron' , '126 Efron St.' , '4801230003' , '17' , '1/20/2014' , '6' , 'Part-Time');
+insert into EMPLOYEES values ('E05' , 'Bill' , 'Murray' , '183 Murray St.' , '4801230004' , '20' , '5/17/2014' , '8' , 'Full-Time');
+insert into EMPLOYEES values ('E06' , 'Steve' , 'Urkel' , '137 Urkel St.' , '4801230005' , '19' , '1/17/2013' , '0' , 'Full-Time');
+insert into EMPLOYEES values ('E07' , 'Charlie' , 'Chaplin' , '139 Chaplin St.' , '4801230006' , '18' , '1/17/2017' , '8' , 'Full-Time');
+insert into EMPLOYEES values ('E08' , 'Stephan' , 'King' , '147 King St.' , '4801230007' , '20' , '9/17/2014' , '1' , 'Part-Time');
+insert into EMPLOYEES values ('E09' , 'Ricardo' , 'Phillips' , '1122 Phillips St.' , '4801230008' , '21' , '1/17/2008' , '4' , 'Part-Time');
+insert into EMPLOYEES values ('E10' , 'Victoria' , 'Ford' , '1229 Ford St.' , '4801230009' , '22' , '1/17/2001' , '6' , 'Full-Time');
+insert into EMPLOYEES values ('E11' , 'Jill' , 'Stevens' , '1237 Stevens St.' , '4801230010' , '23' , '1/17/2012' , '7' , 'Part-Time');
+insert into EMPLOYEES values ('E12' , 'April' , 'Johnson' , '145 Johnson St.' , '4801230011' , '17' , '1/17/2004' , '8' , 'Full-Time');
+insert into EMPLOYEES values ('E13' , 'Summer' , 'Wheatly' , '121 Wheatly St.' , '4801230012' , '17' , '1/17/2010' , '9' , 'Part-Time');
+insert into EMPLOYEES values ('E14' , 'Emma' , 'Watson' , '111 Watson St.' , '4801230013' , '16' , '1/20/2014' , '10' , 'Full-Time');
+insert into EMPLOYEES values ('E15' , 'Daniel' , 'Radcliffe' , '1236 Radcliffe St.' , '4801230014' , '17' , '1/17/2004' , '11' , 'Full-Time');
+insert into EMPLOYEES values ('E16' , 'Cameron' , 'Diaz' , '1234 Diaz St.' , '4801230015' , '16' , '1/29/2014' , '15' , 'Part-Time');
+insert into EMPLOYEES values ('E17' , 'Steven' , 'Spielburg' , '156 Spielburg St.' , '4801230016' , '40' , '1/17/2007' , '13' , 'Full-Time');
+insert into EMPLOYEES values ('E18' , 'Harrison' , 'Ford' , '199 Ford St.' , '4801230017' , '15' , '1/17/2011' , '6' , 'Part-Time');
+insert into EMPLOYEES values ('E19' , 'Kate' , 'Winslet' , '200 Winslet St.' , '4801230018' , '24' , '1/24/2014' , '7' , 'Full-Time');
+insert into EMPLOYEES values ('E20' , 'Natalie' , 'Portman' , '600 Portman St.' , '4801230019' , '16' , '8/17/2014' , '20' , 'Part-Time');
+insert into EMPLOYEES values ('E21' , 'Angelina' , 'Jolie' , '567 Jolie St.' , '4801230020' , '18' , '5/23/2013' , '7' , 'Full-Time');
+insert into EMPLOYEES values ('E22' , 'Jessica' , 'Alba' , '786 Alba St.' , '4801230021' , '19' , '10/17/2013' , '3' , 'Full-Time');
+insert into EMPLOYEES values ('E23' , 'Keira' , 'Knightley' , '103 Knightley St.' , '4801230022' , '16' , '7/07/2014' , '1' , 'Full-Time');
+insert into EMPLOYEES values ('E24' , 'Halle' , 'Berry' , '1209 Berry St.' , '4801230023' , '19' , '3/17/2012' , '12' , 'Full-Time');
+insert into EMPLOYEES values ('E25' , 'Bruce' , 'Willis' , '1230 Willis St.' , '4801230024' , '15' , '5/17/2014' , '15' , 'Part-Time');
+insert into EMPLOYEES values ('E26' , 'Sandra' , 'Bullock' , '1113 Bullock St.' , '4801230025' , '30' , '1/17/2004' , '10' , 'Full-Time');
+insert into EMPLOYEES values ('E27' , 'Drew' , 'Barryymore' , '1000 Barryymore St.' , '4801230026' , '29' , '1/17/2000' , '0' , 'Full-Time');
+insert into EMPLOYEES values ('E28' , 'Bruce' , 'Lee' , '100 Lee St.' , '4801230027' , '25' , '6/07/2014' , '0' , 'Part-Time');
+insert into EMPLOYEES values ('E29' , 'Shia' , 'LeBeouf' , '128 LeBeouf St.' , '4801230028' , '50' , '1/17/1998' , '0' , 'Part-Time');
+insert into EMPLOYEES values ('E30' , 'Keanu' , 'Reeves' , '127 Reeves St.' , '4801230029' , '45' , '1/17/2000' , '0' , 'Part-Time');
+
+
+Select * From Employees;
+===================================================================================================================================================================
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Full-Time TABLE */
+
+
+create table FullTime (
+  EID		  char(4)    Not null,
+  GradDate	  Date       Not null,
+  JobTitle   varchar(15)      Not null,
+  Primary Key (EID));
+
+
+insert into FullTime values('E02' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E03' , '12/12/2016' , 'Record Keeper');
+insert into FullTime values('E05' , '5/12/2017' , 'Veternarian');
+insert into FullTime values('E06' , '12/12/2008' , 'Veternarian');
+insert into FullTime values('E07' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E10' , '12/12/2016' , 'Veternarian');
+insert into FullTime values('E12' , '5/12/2007' , 'Record Keeper');
+insert into FullTime values('E14' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E15' , '5/12/2017' , 'Record Keeper');
+insert into FullTime values('E17' , '12/12/2007' , 'Veternarian');
+insert into FullTime values('E19' , '12/12/2016' , 'Record Keeper');
+insert into FullTime values('E21' , '5/12/2016' , 'Record Keeper');
+insert into FullTime values('E22' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E23' , '12/12/2000' , 'Veternarian');
+insert into FullTime values('E24' , '12/12/2004' , 'Veternarian');
+insert into FullTime values('E26' , '5/12/2015' , 'Record Keeper');
+insert into FullTime values('E27' , '5/12/2016' , 'Record Keeper');
+
+Select * From  FullTime;
+
+=========================================================================================================================================================
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Part-Time TABLE */
+
+
+create table PartTime (
+  EID		  char(4)    Not null,
+  Reference	  varchar(15)       Not null,
+  EmergencyContact   varchar(15)      Not null,
+  Primary Key (EID));
+
+
+insert into PartTime values('E01' , 'J.Smith' , 'A.Peterson');
+insert into PartTime values('E04' , 'S.Carrell' , 'T.Brady');
+insert into PartTime values('E08' , 'J.Carrey' , 'L.Croix');
+insert into PartTime values('E09' , 'M.Freeman' , 'S.Harvey');
+insert into PartTime values('E11' , 'S.Gilmore' , 'J.Johnson');
+insert into PartTime values('E13' , 'S.Conway' , 'F.Alwag');
+insert into PartTime values('E16' , 'G.Smith' , 'K.Russell');
+insert into PartTime values('E18' , 'S.Willis' , 'S.Jobs');
+insert into PartTime values('E20' , 'T.Swanson' , 'J.Jamison');
+insert into PartTime values('E25' , 'G.Partson' , 'J.Appleseed');
+insert into PartTime values('E28' , 'P.Swindle' , 'J.Henrey');
+insert into PartTime values('E29' , 'H.Ledger' , 'P.Bunyon');
+insert into PartTime values('E30' , 'K.Wilson' , 'B.Germain');
+
+Select * From PartTime;

@@ -1,0 +1,30 @@
+Sparky's Finest Presentation Outline
+
+team intro - 5 slides (logo, 3 current member, memorium of past member)
+	- Introduce eachother
+	- Joke about student who dropped. Moser will see next year
+
+summary of clients (Scalawag intro) - 1 ~ 2 slides (Who are they, What they do)
+
+summarized business application (what does the client want) - 1 slides
+
+E/R diagram (before & after) - 2 slides
+
+showed sample data tables - 1 slides ONLY
+	-Tell Theme celebrities
+
+demo advanced queries & results - 2 slides
+
+demo triggers/procedures that the database can handle - 2 slides
+
+visual analytic dashboard - 1 slides
+
+challenges and how they were resolved - 2 slides (Challenge, solution)
+	- Joke about not being perfrect. Missing deadline
+
+lesson learned - 1 slides
+
+Q&A - 1 slides
+
+
+

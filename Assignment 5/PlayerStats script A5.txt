@@ -1,0 +1,67 @@
+Julian Edleman
+Odell Beckham Jr.
+Tom Brady
+
+Stephon Gilmore
+JJ Watt
+Kyle Van Noy
+
+
+===========================================================================================
+/* Create and Insert PSTATS Table*/
+
+create table PSTATS (
+	YearsPlayed int NOT NULL,
+	Touchdown	int NOT NULL);
+
+
+
+insert into PSTATS values(11, 83)
+insert into PSTATS values(9, 1)
+insert into PSTATS values(6, 46)
+insert into PSTATS values(8, 1)
+insert into PSTATS values(20, 554)
+insert into PSTATS values(6, 0)
+
+===================================================================================
+
+/* Inserting duplicate data using insert into statment */
+
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+insert into PSTATS
+	SELECT * FROM PSTATS;
+
+=======================================================================
+
+/* Create identity table for PSTATS table*/
+
+create table PSTATS_DATA (
+	STD	int	Identity(100,1),
+	YearsPlayed int NOT NULL,
+	Touchdown	int NOT NULL
+	Primary Key (STD));
+
+
+insert into PSTATS_DATA (YearsPlayed, Touchdown)
+
+SELECT *
+	FROM PSTATS

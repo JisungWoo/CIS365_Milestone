@@ -1,0 +1,34 @@
+Create view DogBusiness As
+	Select species,Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.TreatmentID = VI.TreatmentID
+				where Species = 'dog';
+Select *
+	From DogBusiness;
+
+
+=================================================================================================
+
+
+Create view CatBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.Visit# = VI.Visit#
+				where Species = 'cat';
+
+====================================================================================================
+
+Create view TotalBusiness As
+	Select Species, Breed, ReasonforVisit, month(dateofVisit) as "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+					where DateofVisit >= '2019-01-01' and DateofVisit < '2019-04-01';
+	
+
+SELECT *
+	FROM TotalBusiness
+	ORDER BY 4;

@@ -1,0 +1,23 @@
+Create View NumClients As
+	Select E.FName, E.LName, V.reasonforVisit, Count(V.Visit#) as 'NumOfVisit'
+		From Employees E join Visits V
+				on E.EmployeeID = V.EmployeeID
+			Group By E.FName, E.LName, V.reasonforvisit
+			Having Count(V.Visit#) > 1;
+
+SELECT *
+	FROM NumClients
+
+=========================================================================================
+
+Create View Caretakers As
+	Select O.OwnerId, O.LastName, C.NameofPet, E.employeeID, E.LName as 'Caretaker'
+		From Clients C Join Owners O
+				on C.OwnerID = O.OwnerID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId;
+
+SELECT *
+	FROM Caretakers

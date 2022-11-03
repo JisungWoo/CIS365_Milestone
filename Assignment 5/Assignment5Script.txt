@@ -1,0 +1,54 @@
+
+/*child table of Stats listing the offensive stats*/
+create table OffenseStatsData
+(
+	--StatsID  int  Identity(100,2)  NOT NULL PRIMARY KEY,
+	Rushing int,
+	Receiving int,
+	Receptions int,
+	Passing  int);
+
+Insert into OffenseStatsData values(390, 6199,575,	90);
+Insert into OffenseStatsData values(84,6252,444, 126);
+Insert into OffenseStatsData values(1002,65,3,73456);
+
+
+--Data duplication
+insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+	insert into OffenseStatsData
+	Select * from OffenseStatsData;
+
+
+
+
+/*child table of Stats listing the offensive stats with identifier*/
+create table OffenseStats
+(
+	StatsID  int  Identity(100,2)  NOT NULL PRIMARY KEY,
+	Rushing int,
+	Receiving int,
+	Receptions int,
+	Passing  int);
+insert into OffenseStats(Rushing, Receiving, Receptions, Passing)
+	Select * from OffenseStatsData;
+
+	Select * from OffenseStats;

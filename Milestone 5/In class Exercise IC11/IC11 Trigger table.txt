@@ -1,0 +1,6 @@
+/* Create absent increment table for trigger */
+CREATE TABLE ABSENTLOG (
+	logNum		int			IDENTITY(1,1)	NOT NULL	PRIMARY KEY,
+	logtime		datetime	DEFAULT			GETDATE(),
+	EmployeeID	char(4),
+	DaysAbsent	smallint					NOT NULL);

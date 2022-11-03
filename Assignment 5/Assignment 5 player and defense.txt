@@ -1,0 +1,143 @@
+/* Create a NFL player data scripts with team names, player name, age, height, weight, shirt number */
+create table NFLPlayer 
+(
+	TeamName	char(30)	NOT NULL,
+	FName		char(20)	NOT NULL,
+	LName		char(20)	NOT NULL,
+	Age		smallint	NOT NULL,
+	Height		varchar(20)	NOT NULL,
+	Weight		smallint	NOT NULL,
+	PNum		smallint	NOT NULL,
+	Primary Key (PID));
+
+insert into NFLPlayer values ('Patriots', 'Julian', 'Edelman', 33, '5 foot 10 inches', 198, 11);
+insert into NFLPlayer values ('Texans', 'J.J.', 'Watt', 30, '6 foot 5 inches', 288, 99);
+insert into NFLPlayer values ('Browns', 'Odell', 'Beckham', 27, '5 foot 11 inches', 198, 13);
+insert into NFLPlayer values ('Patriots', 'Stephon', 'Gilmore', 29, '6 foot 1 inch', 202, 24);
+insert into NFLPlayer values ('Patriots', 'Tom', 'Brady', 42, '6 foot 4 inches', 225, 12);
+insert into NFLPlayer values ('Patriots', 'Kyle', 'Van Noy', 28, '6 foot 3 inches', 250, 53);
+
+===================================================
+/*inserting same data multiple times by using insert into */
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+insert into NFLPlayer
+  select * from NFLPlayer;
+
+
+===============
+/* Create a identity table for NFLPlayer */
+create table NFLPlayers_data
+(
+	PID		int identity(100, 1)	NOT NULL PRIMARY KEY,
+	TeamName	char(30)	NOT NULL,
+	FName		char(20)	NOT NULL,
+	LName		char(20)	NOT NULL,
+	Age		smallint	NOT NULL,
+	Height		varchar(20)	NOT NULL,
+	Weight		smallint	NOT NULL,
+	PNum		smallint	NOT NULL);
+
+
+Insert into NFLPlayers_data (TeamName, FName, LName, Age, Height, Weight, PNum)
+	SELECT * FROM NFLPlayer;
+==================================
+
+/*create a child table for Pstats, for defense with amount of interceptions, sacks, force fumble, tackles */
+create table Defense
+(
+	Interceptions		int				NOT NULL,
+	Sacks			int				NOT NULL,
+	ForceFumble		int				NOT NULL,
+	Tackles			int				NOT NULL,
+	Primary Key (STD));
+
+insert into Defense values (1, 96, 1, 372);
+insert into Defense values (22, 1, 0, 313);
+insert into Defense values (2, 17, 3, 186);
+
+========================================
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+insert into Defense
+	select * from Defense;
+========================================
+/* Create an identity table for Defense_Data with Defense table */
+create table Defense_DATA
+(
+	STD				int identity(101,2)	NOT NULL PRIMARY KEY,
+	Interceptions	int				NOT NULL,
+	Sacks			int				NOT NULL,
+	ForceFumble		int				NOT NULL,
+	Tackles			int				NOT NULL);
+
+insert into Defense_DATA (Interceptions, Sacks, ForceFumble, Tackles)
+	select * from Defense;
+==================================
+
+/* Displays players that has more than there interceptions or two touchdowns */
+Set Statistics time ON;
+Go
+SELECT PID, TeamName, FName, LName, Age, Height--, Touchdown, Interceptions, Receptions
+	FROM NFLPlayers_data N JOIN PSTATS_DATA P
+			ON PID = P.STD
+		JOIN Defense_DATA D
+			ON P.STD = D.STD
+				WHERE Interceptions > 1
+					or Touchdown > 1
+ORDER BY 1;
+Go
+Set Statistics time off;
+Go
+
+==================================
+/* Using nested query and indexes to have the compile speed faster */
+/* a) We used nested query because it is most efficient */
+Set Statistics time ON;
+Go
+Select PID, TeamName, FName, LName, Height
+	FROM NFLPlayers_data
+		WHERE PID IN
+			(SELECT STD
+				FROM PSTATS_DATA
+					WHERE STD IN
+						(SELECT	STD
+							FROM Defense_DATA
+								WHERE Interceptions > 3));
+Go
+Set Statistics time off;
+Go

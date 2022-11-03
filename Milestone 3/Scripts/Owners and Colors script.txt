@@ -1,0 +1,94 @@
+/* Zuhair Rauf */
+/* Script for Owners and Colors */
+
+/* Create, Insert, and Display the contents of the OWNERS Table */
+
+create table OWNERS (
+	OwnerID		varchar(3),
+	FirstName	varchar(10)	Not null,
+	LastName	varchar(15)	Not null,	
+	Address		varchar(30)	Not null,
+	Phone		char(12)	Not null,
+	Street		varchar(25)	Not null,
+	City		varchar(20)	Not null,
+	State		char(2)		Not null,
+	Zip		char(5)		Not null,
+	Primary Key	(OwnerID));
+
+insert into OWNERS values ('O1', 'Dwayne', 'Johnson', '123 Johnson Street', '111-111-1111', 'Swift Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O2', 'George', 'Clooney', '124 Clooney Street', '111-111-1112', 'Clooney Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O3', 'Taylor', 'Swift', '125 Swift Street', '111-111-1113', 'Swift Street', 'Nashville', 'TN', '11113');
+insert into OWNERS values ('O4', 'Kylie', 'Jenner', '126 Jenner Street', '111-111-1114', 'Jenner Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O5', 'Floyd', 'Mayweather', '127 Mayweather Street', '111-111-1115', 'Mayweather Street', 'Las Vegas', 'NV', '11115');
+insert into OWNERS values ('O6', 'Katy', 'Perry', '128 Perry Street', '111-111-1116', 'Perry Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O7', 'Tom', 'Cruise', '129 Cruise Street', '111-111-1117', 'Cruise Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O8', 'Oprah', 'Winfrey', '130 Winfrey Street', '111-111-1118', 'Winfrey Street', 'New York', 'NY', '11112');
+insert into OWNERS values ('O9', 'Jennifer', 'Lopez', '131 Lopez Street', '111-111-1119', 'Lopez Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O10', 'Tiger', 'Woods', '132 Woods Street', '111-111-1120', 'Woods Street', 'Jupiter Island', 'FL', '11114');
+insert into OWNERS values ('O11', 'Tom', 'Hanks', '133 Hanks Street', '111-111-1121', 'Hanks Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O12', 'Leonardo', "DiCaprio', '134 DiCaprio Street', '111-111-1112', 'DiCaprio Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O13', 'Chris', 'Evans', '135 Evans Street', '111-111-1123', 'Evans Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O14', 'Jennifer', 'Lawrence', '136 Lawrence Street', '111-111-1124', 'Lawrence Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O15', 'Robert', 'Downey Jr', '137 Downey Street', '111-111-1125', 'Downey Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O16', 'Channing', 'Tatum', '138 Tatum Street', '111-111-1126', 'Tatum Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O17', 'Margot', 'Robbie', '139 Robbie Street', '111-111-1127', 'Robbie Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O18', 'Ryan', 'Gosling', '140 Gosling Street', '111-111-1128', 'Gosling Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O19', 'Paul', 'Rudd', '141 Rudd Street', '111-111-1129', 'Rudd Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O20;, 'Scarlett', 'Johansson', '142 Johansson Street', '111-111-1130', 'Johansson Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O21', 'Ryan', 'Reynolds', '143 Reynolds Street', '111-111-1131', 'Reynolds Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O22', 'Matt', 'Damon', '144 Damon Street', '111-111-1132', 'Damon Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O23', 'Will', 'Smith', '145 Smith Street', '111-111-1133' 'Smith Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O24', 'Emma', 'Stone', '146 Stone Street', '111-111-1134', 'Stone Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O25', 'Jamie', 'Foxx', '147 Foxx Street', '111-111-1135', 'Foxx Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O26', 'Jonah', 'Hill', '148 Hill Street', '111-111-1136', 'Hill Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O27', 'Ben', 'Stiller', '149 Stiller Street', '111-111-1137', 'Stiller Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O28', 'Daisy', 'Ridley', '150 Ridley Street', '111-111-1138', 'Ridley Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O29', 'Amy', 'Poehler', '151 Poehler Street', '111-111-1139', 'Poehler Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O30', 'Anna', 'Kendrick', '152 Kendrick Street', '111-111-1140', 'Kendrick Street', 'Los Angeles', 'CA', '11111');
+
+SELECT * from OWNERS;
+========================================================================================================================================================================
+
+/* Create, Insert, and Display the contents of the OWNERS Table */
+
+create table COLORS (
+	ClientID	varchar(3)
+	PetName		varchar(10)
+	Color		varchar(5)
+	Primary Key 	(ClientID));
+
+insert into COLORS values ('C1', 'Molly', 'Black');
+insert into COLORS values ('C2', 'Lucy', 'Brown');
+insert into COLORS values ('C3', 'Max', 'White');
+insert into COLORS values ('C4', 'Buddy', 'Gray');
+insert into COLORS values ('C5', 'Duke', 'Black');
+insert into COLORS values ('C6', 'Sadie', 'Brown');
+insert into COLORS values ('C7', 'Daisy', 'Brown');
+insert into COLORS values ('C8', 'Goji', 'Black');
+insert into COLORS values ('C9', 'Rocky', 'Brown');
+insert into COLORS values ('C10', 'Ginger', 'White');
+insert into COLORS values ('C11', 'Dakota', 'Black');
+insert into COLORS values ('C12', 'Cody', 'Brown');
+insert into COLORS values ('C13', 'Chelsea', 'White');
+insert into COLORS values ('C14', 'Toby', 'Black');
+insert into COLORS values ('C15', 'Bo', 'Gray');
+insert into COLORS values ('C16', 'Sparky', 'White');
+insert into COLORS values ('C17', 'Coco', 'Brown');
+insert into COLORS values ('C18', 'Misty', 'Black');
+insert into COLORS values ('C19', 'Gizmo', 'Gray');
+insert into COLORS values ('C20', 'Buzz', 'Gray');
+insert into COLORS values ('C21', 'Rusty', 'Gray');
+insert into COLORS values ('C22'. 'Tasha', 'Brown');
+insert into COLORS values ('C23', 'Gracie', 'Black');
+insert into COLORS values ('C24', 'Zeus', 'Black');
+insert into COLORS values ('C25', 'Bandit', 'White');
+insert into COLORS values ('C26', 'Oscar', 'Gray');
+insert into COLORS values ('C27', 'Tucker', 'Black');
+insert into COLORS values ('C28', 'Rosie', 'White');
+insert into COLORS values ('C29', 'Bella', 'Brown');
+insert into COLORS values ('C30', 'Cooper', 'Black');
+
+SELECT * from COLORS;
+========================================================================================================================================================================
+
+

@@ -1,0 +1,92 @@
+/* Script for Clients and Record Keeper */
+
+
+
+/* Create, Insert, and Display the contents of the CLIENTS Table */
+
+create table CLIENTS (
+	ClientID	char(4),
+	NameOfPet	varchar(15)	Not null,
+	Species		varchar(4)	Not null,
+	Breed		varchar(25)	Not null,
+	PetWeight		numeric(5,3)	Not null,
+	DateOfBirth	Date		Not null,
+	Gender		varchar(6)	Not Null,
+	NeuteredSpayed	varchar(3)	Not Null,
+	OwnerID		char(2)		Not Null,
+	Primary Key 	(ClientId));
+
+insert into CLIENTS values ('0001', 'Charlie', 'Dog', 'Jindo', 87.5, '15-Aug-16', 'Male', 'Yes', '01');
+insert into CLIENTS values ('0002', 'Max', 'Dog', 'Labrador Retriever', 102.6, '27-May-19', 'Male', 'Yes', '02');
+insert into CLIENTS values ('0003', 'Buddy', 'Dog', 'German Sheperd', 70.8, '28-Jan-18', 'Male', 'Yes', '03');
+insert into CLIENTS values ('0004', 'Archie', 'Dog', 'Golden Retriever', 165.1, '8-Mar-11', 'Male', 'Yes', '04');
+insert into CLIENTS values ('0005', 'Teddy', 'Dog', 'French Bulldog', 48, '10-Sep-06', 'Male', 'Yes', '05');
+insert into CLIENTS values ('0006', 'Toby', 'Dog', 'Beagle', 27, '12-Apr-19', 'Male', 'Yes', '06');
+insert into CLIENTS values ('0007', 'Bailey', 'Dog', 'Poodle', 44.9, '1-Jun-19', 'Male', 'No', '07');
+insert into CLIENTS values ('0008', 'Frankie', 'Dog', 'Rottweilers', 5.6, '1-Oct-19', 'Male', 'No', '08');
+insert into CLIENTS values ('0009', 'Bella', 'Dog', 'Siberian Husky', 122, '27-Dec-12', 'Female', 'Yes', '09');
+insert into CLIENTS values ('0010', 'Ruby', 'Dog', 'Pomeranian', 15, '16-Jul-19', 'Female', 'Yes', '10');
+insert into CLIENTS values ('0011', 'Coco', 'Dog', 'Chihuahua', 6.2, '19-Jul-19', 'Female', 'Yes', '11');
+insert into CLIENTS values ('0012', 'Molly', 'Dog', 'Chow Chow', 27.4, '1-Aug-19', 'Female', 'No', '12');
+insert into CLIENTS values ('0013', 'Bonnie', 'Dog', 'American Pit Bull Terrier', 60, '26-Feb-10', 'Female', 'Yes', '13');
+insert into CLIENTS values ('0014', 'Rosie', 'Dog', 'Greyhound', 57, '4-Nov-13', 'Female', 'No', '14');
+insert into CLIENTS values ('0015', 'Daisy', 'Dog', 'Shih Tzu', 16, '31-Mar-17', 'Female', 'Yes', '15');
+insert into CLIENTS values ('0016', 'Lucy', 'Cat', 'Persian', 8, '29-Sep-15', 'Female', 'No', '16');
+insert into CLIENTS values ('0017', 'Luna', 'Cat', 'Russian Blue', 10, '24-Apr-07', 'Female', 'Yes', '17');
+insert into CLIENTS values ('0018', 'Maggie', 'Cat', 'Bengal', 8.62, '21-Dec-07', 'Female', 'Yes', '18');
+insert into CLIENTS values ('0019', 'Kitty', 'Cat', 'British Shorthair', 9.92, '27-Feb-09', 'Female', 'Yes', '19');
+insert into CLIENTS values ('0020', 'Bella', 'Cat', 'Maine Coon', 7.97, '28-Aug-09', 'Female', 'Yes', '20');
+insert into CLIENTS values ('0021', 'Callie', 'Cat', 'Sphynx', 8.26, '9-Oct-11', 'Female', 'Yes', '21');
+insert into CLIENTS values ('0022', 'Chloe', 'Cat', 'Siamese', 2.6, '1-Oct-19', 'Female', 'No', '22');
+insert into CLIENTS values ('0023', 'Max', 'Cat', 'Munchkin', 10.6, '10-Oct-11', 'Male', 'No', '23');
+insert into CLIENTS values ('0024', 'Oliver', 'Cat', 'Ragdoll', 4.65, '7-Sep-19', 'Male', 'Yes', '24');
+insert into CLIENTS values ('0025', 'Smokey', 'Cat', 'Scottish', 7.23, '13-Jan-12', 'Male', 'Yes', '25');
+insert into CLIENTS values ('0026', 'Milo', 'Cat', 'Turkish Angora', 9.14, '30-May-16', 'Male', 'No', '26');
+insert into CLIENTS values ('0027', 'Tiger', 'Cat', 'Chartreux', 6.87, '24-Aug-18', 'Male', 'Yes', '27');
+insert into CLIENTS values ('0028', 'Simba', 'Cat', 'Savannah', 7.12, '5-Nov-18', 'Male', 'Yes', '28');
+insert into CLIENTS values ('0029', 'Smokey', 'Cat', 'Siberian', 8.83, '22-Mar-14', 'Male', 'Yes', '29');
+insert into CLIENTS values ('0030', 'Munkey', 'Cat', 'Toyger', 8.58, '9-Sep-17', 'Male', 'Yes', '30');
+
+SELECT * FROM CLIENTS;
+============================================================================================================================
+/* Create, Insert, and Display the contents of the RECORD KEEPER Table */
+
+create table RECORDKEEPER (
+	EmployeeID	varchar(3),
+	DegreeObtain	integer		Not Null,
+	YrsOfExperience	smallint	Not Null,
+	Primary Key	(EmployeeID));
+
+insert into RECORDKEEPER values ('E01', 2013, 6);
+insert into RECORDKEEPER values ('E02', 2006, 13);
+insert into RECORDKEEPER values ('E03', 2016, 3);
+insert into RECORDKEEPER values ('E04', 2018, 1);
+insert into RECORDKEEPER values ('E05', 2017, 2);
+insert into RECORDKEEPER values ('E06', 2008, 11);
+insert into RECORDKEEPER values ('E07', 2006, 11);
+insert into RECORDKEEPER values ('E08', 2011, 8);
+insert into RECORDKEEPER values ('E09', 2016, 1);
+insert into RECORDKEEPER values ('E10', 2016, 3);
+insert into RECORDKEEPER values ('E11', 2017, 2);
+insert into RECORDKEEPER values ('E12', 2007, 12);
+insert into RECORDKEEPER values ('E13', 2006, 13);
+insert into RECORDKEEPER values ('E14', 2006, 13);
+insert into RECORDKEEPER values ('E15', 2017, 2);
+insert into RECORDKEEPER values ('E16', 2017, 2);
+insert into RECORDKEEPER values ('E17', 2007, 12);
+insert into RECORDKEEPER values ('E18', 2017, 2);
+insert into RECORDKEEPER values ('E19', 2016, 3);
+insert into RECORDKEEPER values ('E20', 2018, 1);
+insert into RECORDKEEPER values ('E21', 2016, 3);
+insert into RECORDKEEPER values ('E22', 2006, 13);
+insert into RECORDKEEPER values ('E23', 2000, 19);
+insert into RECORDKEEPER values ('E24', 2004, 15);
+insert into RECORDKEEPER values ('E25', 2018, 1);
+insert into RECORDKEEPER values ('E26', 2015, 4);
+insert into RECORDKEEPER values ('E27', 2016, 3);
+insert into RECORDKEEPER values ('E28', 2014, 5);
+insert into RECORDKEEPER values ('E29', 2018, 1);
+insert into RECORDKEEPER values ('E30', 2018, 1);
+
+SELECT * FROM RECORDKEEPER;
+===================================================================================================================================

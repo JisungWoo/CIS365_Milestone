@@ -1,0 +1,184 @@
+/* Names of owners making more than 3 visits in the previous month*/
+
+SELECT O.FirstName, O.LastName, DATENAME(month, V.DateofVisit), COUNT(V.ClientID)
+	FROM OWNERS O JOIN CLIENTS C
+				  ON O.OwnerID = C.OwnerID
+				  JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+		GROUP BY O.FirstName, O.LastName, DATENAME(month, V.DateofVisit)
+		HAVING DATENAME(month, V.DateofVisit) = 'November'
+		AND COUNT(V.ClientID) > 3;
+
+=============================================================================================
+
+/* Names of clients not seen in the last year*/
+
+SELECT C.NameOfPet, DATENAME(year, V.DateofVisit) 'LastYear', COUNT(V.ClientID) 'NumOfVisits'
+	FROM CLIENTS C JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+		GROUP BY C.NameOfPet, DATENAME(year, V.DateofVisit)
+		HAVING DATENAME(year, V.DateofVisit) = '2018'
+		AND COUNT(V.ClientID) < 1;
+
+=============================================================================================
+
+/* Treatment performed on animals most oftem (by species)*/
+
+SELECT V.TreatmentID, VI.Description, C.Species
+	FROM CLIENTS C JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+				  JOIN VISITITEMS VI
+				  ON VI.TreatmentID = V.TreatmentID
+				  AND VI.Visit# = V.Visit#
+Order by 1 desc;
+
+==============================================================================================
+
+/* Which client has had the same procedure performed more than once?*/
+
+SELECT C.NameOfPet, COUNT(V.TreatmentID) 'SameProcedure'
+	FROM CLIENTS C JOIN VISITS V
+				  ON C.ClientID = V.ClientID
+		GROUP BY C.NameOfPet
+		HAVING COUNT(V.TreatmentID) > 2;
+
+==============================================================================================
+
+/* A listing of owners, clients in decreasing order by number of visit*/
+
+SELECT O.FirstName, O.LastName, C.NameOfPet, COUNT(V.Visit#) 'NumOfVisits'
+	FROM CLIENTS C JOIN VISITS V
+			ON C.ClientID = V.ClientID
+			JOIN OWNERS O
+			ON O.OwnerID = C.OwnerID
+		GROUP BY O.FirstName, O.LastName, C.NameOfPet
+Order by 4 desc;
+
+===============================================================================================
+
+/* List of dogs that have been neutered*/
+
+SELECT C.NameOfPet
+	FROM CLIENTS C
+		WHERE C.Species LIKE 'Dog%'
+		And C.NeuteredSpayed = 'Yes';
+
+===============================================================================================
+
+/* List all clients date of birth and wegiht*/
+
+SELECT C.NameOfPet, C.PetWeight, C.DateOfBirth
+	FROM CLIENTS C;
+
+================================================================================================
+
+/* List all clients by breed*/
+
+SELECT C.NameOfPet, C.Breed
+	FROM CLIENTS C
+Order by 2;
+
+================================================================================================
+
+/* For each visit, list the client, the owner, the vet who worked on the animal, and the treatment performed. Also include cost of treatment and total cost of visit*/
+
+Create View EachVisit As
+	Select C.NameOfPet, O.LastName, E.LastName, Vi.Description, Vi.Price "Total Cost of Visit
+		From Clients C Join Owners O
+				on C.OwnersID = O.OwnersID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId
+			Join VisitItems Vi
+				on V.Visit# = Vi.Visit#;
+
+Select * From EachVisit;
+
+=================================================================================================
+
+/* Which clients have been boarded for a procedure in the last month? */
+
+SELECT C.NameOfPet, DATENAME(month, DateIn) 'LastMonth'
+	FROM CLIENTS C JOIN BOARDINGINFO B
+					ON C.ClientID = B.ClientID
+		GROUP BY C.NameOfPet, DATENAME(month, DateIn)
+		HAVING DATENAME(month, DateIn) = 'November';
+
+=================================================================================================
+
+/* For all clients with a boarding appointment in the next week, which do not have current vaccinations?*/
+
+SELECT *
+	FROM NO_VACINATIONS;
+
+=================================================================================================
+
+/* Client that has been boarded for procedures the most often*/
+
+SELECT C.NameOfPet, COUNT(B.ClientID) 'NumOfBoarding'
+	FROM CLIENTS C JOIN BOARDINGINFO B
+					ON C.ClientID = B.ClientID
+		GROUP BY C.NameOfPet
+		HAVING COUNT(B.ClientID) >= 2
+ORDER BY 2 desc;
+
+=================================================================================================
+
+/* Which employee has been with Scalawags the longest*/
+
+SELECT E.FName, E.LName, MAX(DATEDIFF(year, E.StartDate, '2019-12-08')) 'YearsEmployed'
+	FROM EMPLOYEES E
+		GROUP BY E.FName, E.LName
+ORDER BY 3 desc;
+
+=================================================================================================
+
+Create View Caretakers As
+	Select O.OwnerId, O.LastName, C.NameofPet, E.employeeID, E.LName as 'Caretaker'
+		From Clients C Join Owners O
+				on C.OwnerID = O.OwnerID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId;
+
+SELECT *
+	FROM Caretakers
+
+=================================================================================================
+
+/* Which clients have had after-hours emergencies? */
+
+SELECT C.NameOFPet, T.Description 'ReasonForVisit'
+	FROM CLIENTS C JOIN VISITS V
+					ON C.ClientID = V.ClientID
+					JOIN VISITITEMS VI
+					ON V.Visit# = VI.Visit#
+					AND V.TreatmentID = VI.TreatmentID
+					JOIN TREATMENTS T
+					ON V.TreatmentID = T.TreatmentID
+					And VI.TreatmentID = T.TreatmentID
+		GROUP BY C.NameOfPet, T.Description
+		HAVING T.Description LIKE 'after hours emergency%';
+
+==================================================================================================
+
+/*The number of clients including the dates and names of clients that each Vet serviced this month. */
+
+SELECT COUNT(V.ClientID) 'NumOfClients', V.DateOfVisit, C.NameOfPet, E.FName, E.LName
+	FROM VISITS V JOIN CLIENTS C
+				  ON V.ClientID = C.ClientID
+				  JOIN VETERINARIANS VE
+				  ON V.EmployeeID = VE.VID
+				  JOIN EMPLOYEES E
+				  ON VE.VID = E.EmployeeID
+		GROUP BY V.DateOfVisit, C.NameOfPet, E.FName, E.LName
+		HAVING DATENAME(month, V.DateOfVisit) = 'December';
+
+==================================================================================================
+
+
+
+
+

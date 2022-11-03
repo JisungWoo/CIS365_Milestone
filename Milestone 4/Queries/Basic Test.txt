@@ -1,0 +1,50 @@
+/*Basic Test 1*/
+
+insert into CLIENTS values ('0031', 'Hulk', 'Dog', 'Pit Bull', 175, '2013-09-07', 'Male', 'No', 'O1');
+insert into BOARDINGINFO values ('0031', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+
+SELECT*
+	FROM BOARDINGINFO
+
+/*Basic Test 2*/
+
+insert into BOARDINGINFO values ('0032', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+insert into CLIENTS values ('0032', 'Rulk', 'Dog', 'Pit Bull', 170, '2013-09-07', 'Male', 'No', 'O1');
+
+/*Basic Test 3*/
+
+insert into CLIENTS values ('0033', 'Bulk', 'Dog', 'Pit Bull', 180, '2013-09-07', 'No', 'O1');
+
+/*Basic Test 4*/
+
+Create View Basic_Test4 As
+	SELECT v.DateOfVisit, v.ReasonforVisit, v.Visit#, v.ClientID, v.EmployeeID, v.TreatmentID, vi.Price
+		FROM Visits v Join VisitItems vi
+			      On v.Visit# = vi.Visit#
+			      And v.TreatmentID = vi.TreatmentID
+
+/*Basic Test 5*/
+
+DELETE FROM Clients	
+	WHERE ClientID = '0001'
+
+/*Basic Test 6*/
+
+insert into EMPLOYEES values ('E31' , 'Bruce' , 'Banner' , '1234 Wilshire Blvd.' , '4804705900' , 30 , '11/10/2019' , 0 , 'Full-Time');
+
+SELECT*
+	FROM EMPLOYEES
+
+/*Basic Test 7*/
+DELETE FROM Clients	
+	WHERE ClientID = '0007'
+
+/*Basic Test 8*/
+insert into CLIENTS values ('0034', 'Shulk', 'Dog', 'Pit Bull', 150, '2013-09-07', 'No', 'O32');
+
+/*Basic Test 9*/
+insert into BOARDINGINFO values ('0034', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+insert into CLIENTS values ('0034', 'Shulk', 'Dog', 'Pit Bull', 150, '2013-09-07', 'Female', 'No', 'O32');
+
+/*Basic Test 10*/
+insert into OWNERS values ('O31', 'Kimbo', 'Slice', '696 Brawl Street', '123-888-1180', 'Brawl Street', 'Los Angeles', 'CA');

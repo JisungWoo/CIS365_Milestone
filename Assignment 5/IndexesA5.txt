@@ -1,0 +1,43 @@
+====================================================================================
+
+/*Creating a Unique key index on NFLPlayers_data.
+Reason for using PID is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX playerIDX ON NFLPlayers_data (PID);
+
+/*Creating a secondary key index on NFLPlayers_data.
+Reason for using TeamName is because it is the most commonly searched attribute*/
+
+CREATE INDEX teamIDX ON NFLPlayers_data (TeamName);
+
+/*Creating a secondary key index on NFLPlayers_data.
+Reason for using LName is because it is the most commonly searched attribute*/
+
+CREATE INDEX lnameIDX ON NFLPlayers_data (LName);
+
+=====================================================================================
+
+/*Creating a Unique key index on PSTATS_DATA.
+Reason for using PID is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX stdIDX ON PSTATS_DATA (STD);
+
+/*Creating a secondary key index on PSTATS_DATA.
+Reason for using TeamName is because it is the most commonly searched attribute*/
+
+CREATE INDEX touchIDX ON PSTATS_DATA (Touchdown);
+
+======================================================================================
+
+/*Creating a Unique key index on DEFENSE_data.
+Reason for using STD is because it is the most commonly searched attribute*/
+
+CREATE UNIQUE INDEX stdIDX ON DEFENSE_data (STD);
+
+/*Creating a secondary key index on DEFENSE_data.
+Reason for using Interceptions is because it is the most commonly searched attribute*/
+
+CREATE INDEX touchIDX ON DEFENSE_data (Interceptions);
+
+=======================================================================================
+

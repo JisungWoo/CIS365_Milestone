@@ -1,0 +1,494 @@
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Employee TABLE */
+create table EMPLOYEES (
+   EmployeeID		char(4),
+   FName	varchar(20)	Not null,
+   LName	varchar(20)	Not null,
+   Address	varchar(25)	Not null,
+   Phone	char(12)	Not null,
+   payRate	smallint	Not null,
+   StartDate    Date            Not null,
+   DaysAbsent   smallint        Not null,
+   EType        varchar(15)     Not null,
+   Primary Key (EmployeeID));
+
+
+insert into EMPLOYEES values ('E01' , 'Jimmy' , 'Fallon' , '123 Fallon St.' , '4801230000' , 20 , '12/17/2014' , 1 , 'Part-Time');
+insert into EMPLOYEES values ('E02' , 'Jimmy' , 'Kimmel' , '145 Fallon St.' , '4801230001' , 19 , '1/17/2013' , 13 , 'Full-Time');
+insert into EMPLOYEES values ('E03' , 'Bob' , 'Vance' , '6783 Vance St.' , '4801230002' , 20 , '1/17/2012' , 6 , 'Full-Time');
+insert into EMPLOYEES values ('E04' , 'Zach' , 'Efron' , '126 Efron St.' , '4801230003' , 17 , '1/20/2014' , 6 , 'Part-Time');
+insert into EMPLOYEES values ('E05' , 'Bill' , 'Murray' , '183 Murray St.' , '4801230004' , 20 , '5/17/2014' , 8 , 'Full-Time');
+insert into EMPLOYEES values ('E06' , 'Steve' , 'Urkel' , '137 Urkel St.' , '4801230005' , 19 , '1/17/2013' , 0 , 'Full-Time');
+insert into EMPLOYEES values ('E07' , 'Charlie' , 'Chaplin' , '139 Chaplin St.' , '4801230006' , 18 , '1/17/2017' , 8 , 'Full-Time');
+insert into EMPLOYEES values ('E08' , 'Stephan' , 'King' , '147 King St.' , '4801230007' , 20 , '9/17/2014' , 1 , 'Part-Time');
+insert into EMPLOYEES values ('E09' , 'Ricardo' , 'Phillips' , '1122 Phillips St.' , '4801230008' , 21 , '1/17/2008' , 4 , 'Part-Time');
+insert into EMPLOYEES values ('E10' , 'Victoria' , 'Ford' , '1229 Ford St.' , '4801230009' , 22 , '1/17/2001' , 6 , 'Full-Time');
+insert into EMPLOYEES values ('E11' , 'Jill' , 'Stevens' , '1237 Stevens St.' , '4801230010' , 23 , '1/17/2012' , 7 , 'Part-Time');
+insert into EMPLOYEES values ('E12' , 'April' , 'Johnson' , '145 Johnson St.' , '4801230011' , 17 , '1/17/2004' , 8 , 'Full-Time');
+insert into EMPLOYEES values ('E13' , 'Summer' , 'Wheatly' , '121 Wheatly St.' , '4801230012' , 17 , '1/17/2010' , 9 , 'Part-Time');
+insert into EMPLOYEES values ('E14' , 'Emma' , 'Watson' , '111 Watson St.' , '4801230013' , 16 , '1/20/2014' , 10 , 'Full-Time');
+insert into EMPLOYEES values ('E15' , 'Daniel' , 'Radcliffe' , '1236 Radcliffe St.' , '4801230014' , 17 , '1/17/2004' , 11 , 'Full-Time');
+insert into EMPLOYEES values ('E16' , 'Cameron' , 'Diaz' , '1234 Diaz St.' , '4801230015' , 16 , '1/29/2014' , 15 , 'Part-Time');
+insert into EMPLOYEES values ('E17' , 'Steven' , 'Spielburg' , '156 Spielburg St.' , '4801230016' , 40 , '1/17/2007' , 13 , 'Full-Time');
+insert into EMPLOYEES values ('E18' , 'Harrison' , 'Ford' , '199 Ford St.' , '4801230017' , 15 , '1/17/2011' , 6 , 'Part-Time');
+insert into EMPLOYEES values ('E19' , 'Kate' , 'Winslet' , '200 Winslet St.' , '4801230018' , 24 , '1/24/2014' , 7 , 'Full-Time');
+insert into EMPLOYEES values ('E20' , 'Natalie' , 'Portman' , '600 Portman St.' , '4801230019' , 16 , '8/17/2014' , 20 , 'Part-Time');
+insert into EMPLOYEES values ('E21' , 'Angelina' , 'Jolie' , '567 Jolie St.' , '4801230020' , 18 , '5/23/2013' , 7 , 'Full-Time');
+insert into EMPLOYEES values ('E22' , 'Jessica' , 'Alba' , '786 Alba St.' , '4801230021' , 19 , '10/17/2013' , 3 , 'Full-Time');
+insert into EMPLOYEES values ('E23' , 'Keira' , 'Knightley' , '103 Knightley St.' , '4801230022' , 16 , '7/07/2014' , 1 , 'Full-Time');
+insert into EMPLOYEES values ('E24' , 'Halle' , 'Berry' , '1209 Berry St.' , '4801230023' , 19 , '3/17/2012' , 12 , 'Full-Time');
+insert into EMPLOYEES values ('E25' , 'Bruce' , 'Willis' , '1230 Willis St.' , '4801230024' , 15 , '5/17/2014' , 15 , 'Part-Time');
+insert into EMPLOYEES values ('E26' , 'Sandra' , 'Bullock' , '1113 Bullock St.' , '4801230025' , 30 , '1/17/2004' , 10 , 'Full-Time');
+insert into EMPLOYEES values ('E27' , 'Drew' , 'Barryymore' , '1000 Barryymore St.' , '4801230026' , 29 , '1/17/2000' , 0 , 'Full-Time');
+insert into EMPLOYEES values ('E28' , 'Bruce' , 'Lee' , '100 Lee St.' , '4801230027' , 25 , '6/07/2014' , 0 , 'Part-Time');
+insert into EMPLOYEES values ('E29' , 'Shia' , 'LeBeouf' , '128 LeBeouf St.' , '4801230028' , 50 , '1/17/1998' , 0 , 'Part-Time');
+insert into EMPLOYEES values ('E30' , 'Keanu' , 'Reeves' , '127 Reeves St.' , '4801230029' , 45 , '1/17/2000' , 0 , 'Part-Time');
+
+
+Select * From Employees;
+===================================================================================================================================================================
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Full-Time TABLE */
+
+
+create table FullTime (
+  EmployeeID		  char(4)    Not null,
+  GradDate	  Date       Not null,
+  JobTitle   varchar(15)      Not null,
+  Primary Key (EmployeeID));
+
+
+insert into FullTime values('E02' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E03' , '12/12/2016' , 'Record Keeper');
+insert into FullTime values('E05' , '5/12/2017' , 'Veternarian');
+insert into FullTime values('E06' , '12/12/2008' , 'Veternarian');
+insert into FullTime values('E07' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E10' , '12/12/2016' , 'Veternarian');
+insert into FullTime values('E12' , '5/12/2007' , 'Record Keeper');
+insert into FullTime values('E14' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E15' , '5/12/2017' , 'Record Keeper');
+insert into FullTime values('E17' , '12/12/2007' , 'Veternarian');
+insert into FullTime values('E19' , '12/12/2016' , 'Record Keeper');
+insert into FullTime values('E21' , '5/12/2016' , 'Record Keeper');
+insert into FullTime values('E22' , '12/12/2006' , 'Veternarian');
+insert into FullTime values('E23' , '12/12/2000' , 'Veternarian');
+insert into FullTime values('E24' , '12/12/2004' , 'Veternarian');
+insert into FullTime values('E26' , '5/12/2015' , 'Record Keeper');
+insert into FullTime values('E27' , '5/12/2016' , 'Record Keeper');
+
+Select * From  FullTime;
+
+=========================================================================================================================================================
+/*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE Part-Time TABLE */
+
+
+create table PartTime (
+  EmployeeID		  char(4)    Not null,
+  Reference	  varchar(15)       Not null,
+  EmergencyContact   varchar(15)      Not null,
+  Primary Key (EmployeeID));
+
+
+insert into PartTime values('E01' , 'J.Smith' , 'A.Peterson');
+insert into PartTime values('E04' , 'S.Carrell' , 'T.Brady');
+insert into PartTime values('E08' , 'J.Carrey' , 'L.Croix');
+insert into PartTime values('E09' , 'M.Freeman' , 'S.Harvey');
+insert into PartTime values('E11' , 'S.Gilmore' , 'J.Johnson');
+insert into PartTime values('E13' , 'S.Conway' , 'F.Alwag');
+insert into PartTime values('E16' , 'G.Smith' , 'K.Russell');
+insert into PartTime values('E18' , 'S.Willis' , 'S.Jobs');
+insert into PartTime values('E20' , 'T.Swanson' , 'J.Jamison');
+insert into PartTime values('E25' , 'G.Partson' , 'J.Appleseed');
+insert into PartTime values('E28' , 'P.Swindle' , 'J.Henrey');
+insert into PartTime values('E29' , 'H.Ledger' , 'P.Bunyon');
+insert into PartTime values('E30' , 'K.Wilson' , 'B.Germain');
+
+Select * From PartTime;
+
+
+
+=============================================================================================================================
+/* CREATE TABLES FOR SCALAWAGS VETERINARY CLINIC */
+
+
+/* CREATE, INSERT, AND DISPLAY THE VETERINARIANS TABLE */
+
+create table VETERINARIANS (
+   EmployeeID		varchar(4),
+   SchoolAttended	varchar(35)	Not null,
+   Specialty		varchar(35)	Not null,
+   Primary Key (EmployeeID),
+   /*Foreign Key (EmployeeID) REFERENCES FULL-TIME (EmployeeID);*/
+   /*Foreign Key (EmployeeID) REFERENCES EMPLOYEES (EmployeeID)); */ 
+
+insert into VETERINARIANS values ('E02', 'UC Davis', 'Anesthesia');
+insert into VETERINARIANS values ('E05', 'Cornell', 'Animal Welfare');
+insert into VETERINARIANS values ('E06', 'CSU', 'Behavoir');
+insert into VETERINARIANS values ('E07', 'NCSU', 'Dentistry');
+insert into VETERINARIANS values ('E10', 'Ohio State', 'Emergency and Critical Care');
+insert into VETERINARIANS values ('E14', 'U of Wisconsin', 'Internal Medicine');
+insert into VETERINARIANS values ('E17', 'Texas A&M', 'Nutrition');
+insert into VETERINARIANS values ('E22', 'UPenn', 'Preventive Medicine');
+insert into VETERINARIANS values ('E23', 'U of Minnesota', 'Radiology');
+insert into VETERINARIANS values ('E24', 'Tufts', 'Surgery');
+
+Select * from VETERINARIANS;
+
+=============================================================================================
+
+/* Create, Insert, and Display the contents of the RECORD KEEPER Table */
+
+create table RECORDKEEPER (
+	EmployeeID	varchar(3),
+	DegreeObtain	integer		Not Null,
+	YrsOfExperience	smallint	Not Null,
+	Primary Key	(EmployeeID));
+
+insert into RECORDKEEPER values ('E03', 2016, 3);
+insert into RECORDKEEPER values ('E12', 2007, 12);
+insert into RECORDKEEPER values ('E13', 2006, 13);
+insert into RECORDKEEPER values ('E14', 2006, 13);
+insert into RECORDKEEPER values ('E15', 2017, 2);
+insert into RECORDKEEPER values ('E19', 2016, 3);
+insert into RECORDKEEPER values ('E21', 2016, 3);
+insert into RECORDKEEPER values ('E26', 2015, 4);
+insert into RECORDKEEPER values ('E27', 2016, 3);
+
+
+SELECT * FROM RECORDKEEPER;
+==================================================================================================================================
+/* Zuhair Rauf */
+/* Script for Owners and Colors */
+
+/* Create, Insert, and Display the contents of the OWNERS Table */
+
+create table OWNERS (
+	OwnerID		varchar(3),
+	FirstName	varchar(10)	Not null,
+	LastName	varchar(15)	Not null,	
+	Address		varchar(30)	Not null,
+	Phone		char(12)	Not null,
+	Street		varchar(25)	Not null,
+	City		varchar(20)	Not null,
+	State		char(2)		Not null,
+	Zip		char(5)		Not null,
+	Primary Key	(OwnerID));
+
+insert into OWNERS values ('O1', 'Dwayne', 'Johnson', '123 Johnson Street', '111-111-1111', 'Swift Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O2', 'George', 'Clooney', '124 Clooney Street', '111-111-1112', 'Clooney Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O3', 'Taylor', 'Swift', '125 Swift Street', '111-111-1113', 'Swift Street', 'Nashville', 'TN', '11113');
+insert into OWNERS values ('O4', 'Kylie', 'Jenner', '126 Jenner Street', '111-111-1114', 'Jenner Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O5', 'Floyd', 'Mayweather', '127 Mayweather Street', '111-111-1115', 'Mayweather Street', 'Las Vegas', 'NV', '11115');
+insert into OWNERS values ('O6', 'Katy', 'Perry', '128 Perry Street', '111-111-1116', 'Perry Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O7', 'Tom', 'Cruise', '129 Cruise Street', '111-111-1117', 'Cruise Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O8', 'Oprah', 'Winfrey', '130 Winfrey Street', '111-111-1118', 'Winfrey Street', 'New York', 'NY', '11112');
+insert into OWNERS values ('O9', 'Jennifer', 'Lopez', '131 Lopez Street', '111-111-1119', 'Lopez Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O10', 'Tiger', 'Woods', '132 Woods Street', '111-111-1120', 'Woods Street', 'Jupiter Island', 'FL', '11114');
+insert into OWNERS values ('O11', 'Tom', 'Hanks', '133 Hanks Street', '111-111-1121', 'Hanks Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O12', 'Leonardo', "DiCaprio', '134 DiCaprio Street', '111-111-1112', 'DiCaprio Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O13', 'Chris', 'Evans', '135 Evans Street', '111-111-1123', 'Evans Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O14', 'Jennifer', 'Lawrence', '136 Lawrence Street', '111-111-1124', 'Lawrence Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O15', 'Robert', 'Downey Jr', '137 Downey Street', '111-111-1125', 'Downey Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O16', 'Channing', 'Tatum', '138 Tatum Street', '111-111-1126', 'Tatum Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O17', 'Margot', 'Robbie', '139 Robbie Street', '111-111-1127', 'Robbie Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O18', 'Ryan', 'Gosling', '140 Gosling Street', '111-111-1128', 'Gosling Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O19', 'Paul', 'Rudd', '141 Rudd Street', '111-111-1129', 'Rudd Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O20;, 'Scarlett', 'Johansson', '142 Johansson Street', '111-111-1130', 'Johansson Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O21', 'Ryan', 'Reynolds', '143 Reynolds Street', '111-111-1131', 'Reynolds Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O22', 'Matt', 'Damon', '144 Damon Street', '111-111-1132', 'Damon Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O23', 'Will', 'Smith', '145 Smith Street', '111-111-1133' 'Smith Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O24', 'Emma', 'Stone', '146 Stone Street', '111-111-1134', 'Stone Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O25', 'Jamie', 'Foxx', '147 Foxx Street', '111-111-1135', 'Foxx Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O26', 'Jonah', 'Hill', '148 Hill Street', '111-111-1136', 'Hill Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O27', 'Ben', 'Stiller', '149 Stiller Street', '111-111-1137', 'Stiller Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O28', 'Daisy', 'Ridley', '150 Ridley Street', '111-111-1138', 'Ridley Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O29', 'Amy', 'Poehler', '151 Poehler Street', '111-111-1139', 'Poehler Street', 'Los Angeles', 'CA', '11111');
+insert into OWNERS values ('O30', 'Anna', 'Kendrick', '152 Kendrick Street', '111-111-1140', 'Kendrick Street', 'Los Angeles', 'CA', '11111');
+
+SELECT * from OWNERS;
+========================================================================================================================================================================
+/* Script for Clients and Record Keeper */
+
+
+
+/* Create, Insert, and Display the contents of the CLIENTS Table */
+
+create table CLIENTS (
+	ClientID	char(4),
+	NameOfPet	varchar(15)	Not null,
+	Species		varchar(4)	Not null,
+	Breed		varchar(25)	Not null,
+	PetWeight		numeric(5,3)	Not null,
+	DateOfBirth	Date		Not null,
+	Gender		varchar(6)	Not Null,
+	NeuteredSpayed	varchar(3)	Not Null,
+	OwnerID		char(2)		Not Null,
+	Primary Key 	(ClientId));
+
+insert into CLIENTS values ('0001', 'Charlie', 'Dog', 'Jindo', 87.5, '15-Aug-16', 'Male', 'Yes', '01');
+insert into CLIENTS values ('0002', 'Max', 'Dog', 'Labrador Retriever', 102.6, '27-May-19', 'Male', 'Yes', '02');
+insert into CLIENTS values ('0003', 'Buddy', 'Dog', 'German Sheperd', 70.8, '28-Jan-18', 'Male', 'Yes', '03');
+insert into CLIENTS values ('0004', 'Archie', 'Dog', 'Golden Retriever', 165.1, '8-Mar-11', 'Male', 'Yes', '04');
+insert into CLIENTS values ('0005', 'Teddy', 'Dog', 'French Bulldog', 48, '10-Sep-06', 'Male', 'Yes', '05');
+insert into CLIENTS values ('0006', 'Toby', 'Dog', 'Beagle', 27, '12-Apr-19', 'Male', 'Yes', '06');
+insert into CLIENTS values ('0007', 'Bailey', 'Dog', 'Poodle', 44.9, '1-Jun-19', 'Male', 'No', '07');
+insert into CLIENTS values ('0008', 'Frankie', 'Dog', 'Rottweilers', 5.6, '1-Oct-19', 'Male', 'No', '08');
+insert into CLIENTS values ('0009', 'Bella', 'Dog', 'Siberian Husky', 122, '27-Dec-12', 'Female', 'Yes', '09');
+insert into CLIENTS values ('0010', 'Ruby', 'Dog', 'Pomeranian', 15, '16-Jul-19', 'Female', 'Yes', '10');
+insert into CLIENTS values ('0011', 'Coco', 'Dog', 'Chihuahua', 6.2, '19-Jul-19', 'Female', 'Yes', '11');
+insert into CLIENTS values ('0012', 'Molly', 'Dog', 'Chow Chow', 27.4, '1-Aug-19', 'Female', 'No', '12');
+insert into CLIENTS values ('0013', 'Bonnie', 'Dog', 'American Pit Bull Terrier', 60, '26-Feb-10', 'Female', 'Yes', '13');
+insert into CLIENTS values ('0014', 'Rosie', 'Dog', 'Greyhound', 57, '4-Nov-13', 'Female', 'No', '14');
+insert into CLIENTS values ('0015', 'Daisy', 'Dog', 'Shih Tzu', 16, '31-Mar-17', 'Female', 'Yes', '15');
+insert into CLIENTS values ('0016', 'Lucy', 'Cat', 'Persian', 8, '29-Sep-15', 'Female', 'No', '16');
+insert into CLIENTS values ('0017', 'Luna', 'Cat', 'Russian Blue', 10, '24-Apr-07', 'Female', 'Yes', '17');
+insert into CLIENTS values ('0018', 'Maggie', 'Cat', 'Bengal', 8.62, '21-Dec-07', 'Female', 'Yes', '18');
+insert into CLIENTS values ('0019', 'Kitty', 'Cat', 'British Shorthair', 9.92, '27-Feb-09', 'Female', 'Yes', '19');
+insert into CLIENTS values ('0020', 'Bella', 'Cat', 'Maine Coon', 7.97, '28-Aug-09', 'Female', 'Yes', '20');
+insert into CLIENTS values ('0021', 'Callie', 'Cat', 'Sphynx', 8.26, '9-Oct-11', 'Female', 'Yes', '21');
+insert into CLIENTS values ('0022', 'Chloe', 'Cat', 'Siamese', 2.6, '1-Oct-19', 'Female', 'No', '22');
+insert into CLIENTS values ('0023', 'Max', 'Cat', 'Munchkin', 10.6, '10-Oct-11', 'Male', 'No', '23');
+insert into CLIENTS values ('0024', 'Oliver', 'Cat', 'Ragdoll', 4.65, '7-Sep-19', 'Male', 'Yes', '24');
+insert into CLIENTS values ('0025', 'Smokey', 'Cat', 'Scottish', 7.23, '13-Jan-12', 'Male', 'Yes', '25');
+insert into CLIENTS values ('0026', 'Milo', 'Cat', 'Turkish Angora', 9.14, '30-May-16', 'Male', 'No', '26');
+insert into CLIENTS values ('0027', 'Tiger', 'Cat', 'Chartreux', 6.87, '24-Aug-18', 'Male', 'Yes', '27');
+insert into CLIENTS values ('0028', 'Simba', 'Cat', 'Savannah', 7.12, '5-Nov-18', 'Male', 'Yes', '28');
+insert into CLIENTS values ('0029', 'Smokey', 'Cat', 'Siberian', 8.83, '22-Mar-14', 'Male', 'Yes', '29');
+insert into CLIENTS values ('0030', 'Munkey', 'Cat', 'Toyger', 8.58, '9-Sep-17', 'Male', 'Yes', '30');
+
+SELECT * FROM CLIENTS;
+============================================================================================================================
+
+
+/* Create, Insert, and Display the contents of the OWNERS Table */
+
+create table COLORS (
+	ClientID	varchar(3)
+	PetName		varchar(10)
+	Color		varchar(5)
+	Primary Key 	(ClientID));
+
+insert into COLORS values ('C1', 'Molly', 'Black');
+insert into COLORS values ('C2', 'Lucy', 'Brown');
+insert into COLORS values ('C3', 'Max', 'White');
+insert into COLORS values ('C4', 'Buddy', 'Gray');
+insert into COLORS values ('C5', 'Duke', 'Black');
+insert into COLORS values ('C6', 'Sadie', 'Brown');
+insert into COLORS values ('C7', 'Daisy', 'Brown');
+insert into COLORS values ('C8', 'Goji', 'Black');
+insert into COLORS values ('C9', 'Rocky', 'Brown');
+insert into COLORS values ('C10', 'Ginger', 'White');
+insert into COLORS values ('C11', 'Dakota', 'Black');
+insert into COLORS values ('C12', 'Cody', 'Brown');
+insert into COLORS values ('C13', 'Chelsea', 'White');
+insert into COLORS values ('C14', 'Toby', 'Black');
+insert into COLORS values ('C15', 'Bo', 'Gray');
+insert into COLORS values ('C16', 'Sparky', 'White');
+insert into COLORS values ('C17', 'Coco', 'Brown');
+insert into COLORS values ('C18', 'Misty', 'Black');
+insert into COLORS values ('C19', 'Gizmo', 'Gray');
+insert into COLORS values ('C20', 'Buzz', 'Gray');
+insert into COLORS values ('C21', 'Rusty', 'Gray');
+insert into COLORS values ('C22'. 'Tasha', 'Brown');
+insert into COLORS values ('C23', 'Gracie', 'Black');
+insert into COLORS values ('C24', 'Zeus', 'Black');
+insert into COLORS values ('C25', 'Bandit', 'White');
+insert into COLORS values ('C26', 'Oscar', 'Gray');
+insert into COLORS values ('C27', 'Tucker', 'Black');
+insert into COLORS values ('C28', 'Rosie', 'White');
+insert into COLORS values ('C29', 'Bella', 'Brown');
+insert into COLORS values ('C30', 'Cooper', 'Black');
+
+SELECT * from COLORS;
+=============================================================================================================================
+/* CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE VISITS TABLE */
+
+
+create table VISITS (
+DateofVisit 	Date 	Not null,
+ReasonforVisit 	varchar(30) 	Not null,
+Visit# 	varchar(10) 	Not null,
+TotalChagefortheVisit 	decimal(7,2) 	Not null,
+ClientID 	char(4)	 Not null,
+EmployeeID 	varchar(4)	 Not null,
+TreatmentID 	char(5)	 Not null,
+Primary Key (Visit#)
+Foreign Key (TreatmentID) REFERENCES TREATMENTS (TreatmentID),
+Foreign Key (ClientID) REFERENCES CLIENTS (ClientID),
+Foreign Key (EmployeeID) REFERENCES CLIENTS (EmployeeID));
+
+
+insert into VISIT values ( '04-Jan-19', 'Parvo', 'opp0001', '60.00', '0001', 'E02', '01101');
+insert into VISIT values ( '04-Jan-19', 'Carona', 'opp0002', '90.00', '0002', 'E05' , '01102');
+insert into VISIT values ( '07-Jan-19', 'Bordetella', 'opp0003', 510.00, '0003', 'E06', '01103');
+insert into VISIT values ( '08-Jan-19', 'Rabies', 'opp0004', 90.00, '0004', 'E07', '01104');
+insert into VISIT values ( '08-Jan-19', 'Feline Distemper', 'opp0005', 34.00, '0005', 'E10', '01105');
+insert into VISIT values ( '10-Jan-19', 'Rabies', 'opp0006', 29.00, '0006', 'E14', '01106');
+insert into VISIT values ( '14-Jan-19', 'Leukemia', 'imm0001', 87.00, '0007', 'E17', '02201');
+insert into VISIT values ( '14-Jan-19', 'Medicine Care', 'imm0002', 98.00, '0008', 'E22', '02202');
+insert into VISIT values ( '15-Jan-19', 'Leukemia', 'imm0003', 30.00, '0009', 'E23', '02203');
+insert into VISIT values ( '16-Jan-19', 'Carona', 'imm0004', 43.00, '0010', 'E24', '02204');
+insert into VISIT values ( '17-Jan-19', 'Medicine Care', 'imm0005', 67.00, '0011', 'E30', '02205');
+insert into VISIT values ( '18-Jan-19', 'Leukemia', 'imm0006', 89.00, '0012', 'E22', '02206');
+insert into VISIT values ( '22-Jan-19', 'Feline Distemper', 'lab0001', 70.00, '0013', 'E29', '03301');
+insert into VISIT values ( '22-Jan-19', 'Carona', 'lab0002', 65.00, '0014', 'E03', '03302');
+insert into VISIT values ( '24-Jan-19', 'Medicine Care', 'lab0003', 200.00, '0015', 'E15', '03303');
+insert into VISIT values ( '25-Jan-19', 'Feline Distemper', 'lab0004', 60.00, '0016', 'E15', '03304');
+insert into VISIT values ( '28-Jan-19', 'Medicine Care', 'lab0005', 90.00, '0017', 'E22', '03305');
+insert into VISIT values ( '30-Jan-19', 'Leukemia', 'lab0006', 80.00, '0018', 'E08', '03306');
+insert into VISIT values ( '01-Feb-19', 'Parvo', 'rad0001', 50.00, '0019', 'E07', '04401');
+insert into VISIT values ( '01–Feb-19', 'Feline Distemper', 'rad0002', 68.00, '0020', 'E12', '04401');
+insert into VISIT values ( '05–Feb-19', 'Leukemia', 'rad0003', 98.00, '0021', 'E05', '04401');
+insert into VISIT values ( '06–Feb-19', 'Parvo', 'rad0004', 123.00, '0022', 'E25', '04402');
+insert into VISIT values ( '07–Feb-19', 'Medicine Care', 'rad0005', 160.00, '0023', 'E14', '04402');
+insert into VISIT values ( '08–Feb-19', 'Leukemia' ,'rad0006', 200.00, '0024', 'E18', '04402');
+insert into VISIT values (  '13–Feb-19', 'Feline Distemper', 'prx0001', 29.81, '0025', 'E02', '05501');
+insert into VISIT values ( '15–Feb-19', 'Leukemia', 'prx0002', 189.14, '0026', 'E17', '05501');
+insert into VISIT values ( '19–Feb-19', 'Medicine Care', 'prx0003', 77.92, '0027', 'E10', '05501');
+insert into VISIT values ( '20–Feb-19', 'Feline Distemper', 'prx0004', 98.23, '0028', 'E21', '05501');
+insert into VISIT values ( '21–Feb-19', 'Parvo', 'prx0005', 155.91, '0029', 'E11', '05501');
+insert into VISIT values ( '22–Feb-19', 'Parvo', 'prx0006', 123.13, '0030', 'E03', '05501');
+
+Select * from VISITS;
+
+===========================================================================================
+
+/* CREATE, INSERT, AND DISPLAY TREATMENTS TABLE */
+
+create table TREATMENTS (
+   Category	varchar(20)	Not null,
+   TreatmentID	char(5)	,
+   Description	varchar(30)	Not null,
+   Primary Key (TreatmentID));
+
+insert into TREATMENTS values ('Outpatient procedures', '01101', 'office visit(brief)')
+insert into TREATMENTS values ('Outpatient procedures', '01102', 'office call and exam')
+insert into TREATMENTS values ('Outpatient procedures', '01103', 'after hours emergency')
+insert into TREATMENTS values ('Outpatient procedures', '01104', 'deworming')
+insert into TREATMENTS values ('Outpatient procedures', '01105', 'nail trim')
+insert into TREATMENTS values ('Outpatient procedures', '01106', 'ear cleaning')
+insert into TREATMENTS values ('Outpatient procedures', '01107', 'express anal sacs')
+insert into TREATMENTS values ('Outpatient procedures', '01108', 'fluorescein stain')
+insert into TREATMENTS values ('Outpatient procedures', '01109', 'schirmer tear test')
+insert into TREATMENTS values ('Outpatient procedures', '01110', 'other(specify)')
+insert into TREATMENTS values ('Immunizations', '02201', 'DHLP')
+insert into TREATMENTS values ('Immunizations', '02202', 'canine parvovirus')
+insert into TREATMENTS values ('Immunizations', '02203', 'cainine coronavirus')
+insert into TREATMENTS values ('Immunizations', '02204', 'bordetella')
+insert into TREATMENTS values ('Immunizations', '02205', 'rabies')
+insert into TREATMENTS values ('Immunizations', '02206', 'FVRCP')
+insert into TREATMENTS values ('Immunizations', '02207', 'chlamydia')
+insert into TREATMENTS values ('Immunizations', '02208', 'feline leukemia')
+insert into TREATMENTS values ('Immunizations', '02209', 'other(specify)')
+insert into TREATMENTS values ('Laboratory', '03301', 'intestinal worm test')
+insert into TREATMENTS values ('Laboratory', '03302', 'heartworm test')
+insert into TREATMENTS values ('Laboratory', '03303', 'leukemia test')
+insert into TREATMENTS values ('Laboratory', '03304', 'complete urinalysis')
+insert into TREATMENTS values ('Laboratory', '03305', 'microscopic exam')
+insert into TREATMENTS values ('Laboratory', '03350', 'skin scrape')
+insert into TREATMENTS values ('Laboratory', '03351', 'ear mite check')
+insert into TREATMENTS values ('Laboratory', '03352', 'cytoloty')
+insert into TREATMENTS values ('Laboratory', '03306', 'other(specify)')
+insert into TREATMENTS values ('Radiology', '04401', 'general x-rays')
+insert into TREATMENTS values ('Radiology', '04402', 'special procedures')
+insert into TREATMENTS values ('Prescriptions', '05501', 'other(specify)')
+
+Select * from TREATMENTS;
+
+==============================================================================================
+
+/* CREATE, INSERT, AND DISPLAY VISITITEMS */
+
+
+create table VISITITEMS (
+   TreatmentID		char(5),
+   Visit#		varchar(7)	Not null,
+   Description		varchar(30	Not null,
+   Price		decimal(7,2)	Not null,
+   Primary Key (TreatmentID, Visit#)
+   Foreign Key (TreatmentID) REFERENCES TREATMENTS (TreatmentID),
+   Foreign Key (Visit#) REFERENCES VISIT (Visit#));
+
+insert into VISITITEMS values ('01101', 'opp0001', '1.01office visit', 45.00);
+insert into VISITITEMS values ('01102', 'opp0002', '1.02offic exam', 55.00);
+insert into VISITITEMS values ('01103', 'opp0003', '1.03after hours', 500.00);
+insert into VISITITEMS values ('01104', 'opp0004', '1.04deworming', 50.00);
+insert into VISITITEMS values ('01105', 'opp0005', '1.05nail trim', 20.00);
+insert into VISITITEMS values ('01106', 'opp0006', '1.06ear cleaning', 20.00);
+insert into VISITITEMS values ('02201', 'imm0001', '2.01DHLP', 60.00);
+insert into VISITITEMS values ('02202', 'imm0002', '2.02k9parvo', 90.00);
+insert into VISITITEMS values ('02203', 'imm0003', '2.03k9cornoa', 30.00);
+insert into VISITITEMS values ('02204', 'imm0004', '2.04bordetella', 15.00);
+insert into VISITITEMS values ('02205', 'imm0005', '2.05rabies', 55.00);
+insert into VISITITEMS values ('02206', 'imm0006', '2.06FVRCP', 60.00);
+insert into VISITITEMS values ('03301', 'lab0001', '3.01intest worm test', 45.00);
+insert into VISITITEMS values ('03302', 'lab0002', '3.02heartworm test', 60.00);
+insert into VISITITEMS values ('03303', 'lab0003', '3.03 leukemia test', 180.00);
+insert into VISITITEMS values ('03304', 'lab0004', '3.04urinalysis', 60.00);
+insert into VISITITEMS values ('03305', 'lab0005', '3.05microscopic exam', 90.00);
+insert into VISITITEMS values ('03306', 'lab0006', '3.06DNA test', 80.00);
+insert into VISITITEMS values ('04401', 'rad0001', '4.01general x-rays', 50.00);
+insert into VISITITEMS values ('04401', 'rad0002', '4.01general x-rays', 40.00);
+insert into VISITITEMS values ('04401', 'rad0003', '4.01general x-rays', 60.00);
+insert into VISITITEMS values ('04402', 'rad0004', '4.02special procedures', 180.00);
+insert into VISITITEMS values ('04402', 'rad0005', '4.02special procedures', 160.00);
+insert into VISITITEMS values ('04402', 'rad0006', '4.02special procedures', 200.00);
+insert into VISITITEMS values ('05501', 'prx0001', '5.01Acepromazine 25MG', 20.81);
+insert into VISITITEMS values ('05501', 'prx0002', '5.01Atopica 100MG', 149.14);
+insert into VISITITEMS values ('05501', 'prx0003', '5.01Carprofen 100MG', 53.92);
+insert into VISITITEMS values ('05501', 'prx0004', '5.01Clavamox 375MG', 91.23);
+insert into VISITITEMS values ('05501', 'prx0005', '5.01Deramaxx 100MG', 101.91);
+insert into VISITITEMS values ('05501', 'prx0006', '5.01Zeniquin 100MG', 110.13);
+
+Select * from VISITITEMS;
+
+=================================================================================================================
+
+/* CREATE, INSERT, AND DISPLAY BOARDING INFO */
+
+
+create table BOARDINGINFO (
+   ClientID		char(4),
+   DateIn		Date	   Not null,
+   DateOut		Date	   Not null,
+   VaccinationCheck 	varchar(3) Not null,
+   Visit#		varchar(7) Not null,
+   Primary Key (ClientID, Visit#),
+   Foreign Key (ClientID) REFERENCES CLIENTS (ClientID)
+   Foreign Key (Visit#) REFERENCES VISITITEMS (Visit#));
+
+insert into BOARDINGINFO ('0001', '2019-01-04', '2019-01-05', 'yes', 'opp0001');
+insert into BOARDINGINFO ('0002', '2019-01-04', '2019-01-06', 'yes', 'opp0002');
+insert into BOARDINGINFO ('0003', '2019-01-07', '2019-01-08', 'yes', 'opp0003');
+insert into BOARDINGINFO ('0004', '2019-01-08', '2019-01-09', 'yes', 'opp0004');
+insert into BOARDINGINFO ('0005', '2019-01-08', '2019-01-09', 'yes', 'opp0005');
+insert into BOARDINGINFO ('0006', '2019-01-10', '2019-01-11', 'yes', 'opp0006');
+insert into BOARDINGINFO ('0007', '2019-01-14', '2019-01-15', 'yes', 'imm0001');
+insert into BOARDINGINFO ('0008', '2019-01-14', '2019-01-15', 'yes', 'imm0002');
+insert into BOARDINGINFO ('0009', '2019-01-15', '2019-01-16', 'yes', 'imm0003');
+insert into BOARDINGINFO ('0010', '2019-01-16', '2019-01-17', 'yes', 'imm0004');
+insert into BOARDINGINFO ('0011', '2019-01-17', '2019-01-18', 'yes', 'imm0005');
+insert into BOARDINGINFO ('0012', '2019-01-18', '2019-01-19', 'yes', 'imm0006');
+insert into BOARDINGINFO ('0013', '2019-01-22', '2019-01-23', 'yes', 'lab0001');
+insert into BOARDINGINFO ('0014', '2019-01-22', '2019-01-23', 'yes', 'lab0002');
+insert into BOARDINGINFO ('0015', '2019-01-24', '2019-01-25', 'yes', 'lab0003');
+insert into BOARDINGINFO ('0016', '2019-01-25', '2019-01-26', 'yes', 'lab0004');
+insert into BOARDINGINFO ('0017', '2019-01-28', '2019-01-29', 'yes', 'lab0005');
+insert into BOARDINGINFO ('0018', '2019-01-30', '2019-01-31', 'yes', 'lab0006');
+insert into BOARDINGINFO ('0019', '2019-02-01', '2019-02-02', 'yes', 'rad0001');
+insert into BOARDINGINFO ('0020', '2019-02-01', '2019-02-02', 'yes', 'rad0002');
+insert into BOARDINGINFO ('0021', '2019-02-05', '2019-02-06', 'yes', 'rad0003');
+insert into BOARDINGINFO ('0022', '2019-02-06', '2019-02-07', 'yes', 'rad0004');
+insert into BOARDINGINFO ('0023', '2019-02-07', '2019-02-08', 'yes', 'rad0005');
+insert into BOARDINGINFO ('0024', '2019-02-08', '2019-02-09', 'yes', 'rad0006');
+insert into BOARDINGINFO ('0025', '2019-02-13', '2019-02-14', 'yes', 'prx0001');
+insert into BOARDINGINFO ('0026', '2019-02-15', '2019-02-16', 'yes', 'prx0002');
+insert into BOARDINGINFO ('0027', '2019-02-19', '2019-02-20', 'yes', 'prx0003');
+insert into BOARDINGINFO ('0028', '2019-02-20', '2019-02-21', 'yes', 'prx0004');
+insert into BOARDINGINFO ('0029', '2019-02-21', '2019-02-22', 'yes', 'prx0005');
+insert into BOARDINGINFO ('0030', '2019-02-22', '2019-02-23', 'yes', 'prx0006');
+
+Select * from BOARDINGINFO;
+
+==================================================================================================
+
+
+   

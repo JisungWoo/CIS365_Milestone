@@ -1,0 +1,147 @@
+---Group By Having queries
+
+Select FirstName, LastName, count(visit#) as "Number of visit#"
+	From Owners O Join Clients C
+			on O.ownerID = C.ownerId
+		      Join Visits V
+			on C.ClientId = V .ClientId
+				group by Firstname,LastName
+				Having count(visit#)>1
+Order by 2;
+
+==============================================
+Select Species, count(NeuteredSpayed)
+	From Clients C JOIN OWNERS O
+		ON C.OwnerID = O.OwnerID
+	Where NeuteredSpayed Like 'Yes'
+		Group by Species
+			Having count(NeuteredSpayed) > 1
+Order by 2;
+
+=========================================================
+Select T.TreatmentID, Description, count(T.TreatmentID) as "Number of TreatmentID"
+	From TREATMENTS T JOIN VISITS V
+		on T.TreatmentID = V.TreatmentID
+			group by T.TreatmentID, Description
+			Having count(T.TreatmentID) > 2;
+
+=========================================================
+--Employees that have worked on cats
+Select EmployeeID, LName, Etype
+	From Employees
+		Where EmployeeID in
+			(Select EmployeeID
+				From Visits
+					Where ClientId in
+						(Select ClientId
+							From Clients
+								Where Species = 'Cat'));
+
+====================================================================
+--Owners whose pets where helped by employee E03 
+Select OwnerID, FirstName, LastName
+	From OWNERS O, EMPLOYEES
+		Where OwnerID IN
+			(Select OwnerID
+				From Clients
+					Where ClientID IN
+						(Select ClientID
+							From Visits
+								WHERE EmployeeID IN
+									(SELECT VID 
+										FROM VETERINARIANS
+											WHERE VID IN
+												(SELECT FID
+													FROM FullTime
+														WHERE FID IN												(SELECT EmployeeID												FROM EMPLOYEES)))))
+							AND EmployeeID = 'E03';
+========================================================================
+
+--Name and breed of all the dogs
+Select NameOfPet, Breed
+	From Clients
+		Where ClientID in
+			(Select ClientID
+				From Visits
+					Where ClientId in
+						(Select ClientId
+							From Clients
+								Where Species = 'Dog'));
+
+
+/*Basic Test 1*/
+
+insert into CLIENTS values ('0031', 'Hulk', 'Dog', 'Pit Bull', 175, '2013-09-07', 'Male', 'No', 'O1');
+insert into BOARDINGINFO values ('0031', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+
+SELECT*
+	FROM BOARDINGINFO
+
+/*Basic Test 2*/
+
+insert into BOARDINGINFO values ('0032', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+insert into CLIENTS values ('0032', 'Rulk', 'Dog', 'Pit Bull', 170, '2013-09-07', 'Male', 'No', 'O1');
+
+/*Basic Test 3*/
+
+insert into CLIENTS values ('0033', 'Bulk', 'Dog', 'Pit Bull', 180, '2013-09-07', 'No', 'O1');
+
+/*Basic Test 4*/
+
+Create View Basic_Test4 As
+	SELECT v.DateOfVisit, v.ReasonforVisit, v.Visit#, v.ClientID, v.EmployeeID, v.TreatmentID, vi.Price
+		FROM Visits v Join VisitItems vi
+			      On v.Visit# = vi.Visit#
+			      And v.TreatmentID = vi.TreatmentID
+
+/*Basic Test 5*/
+
+DELETE FROM Clients	
+	WHERE ClientID = '0001'
+
+/*Basic Test 6*/
+
+insert into EMPLOYEES values ('E31' , 'Bruce' , 'Banner' , '1234 Wilshire Blvd.' , '4804705900' , 30 , '11/10/2019' , 0 , 'Full-Time');
+
+SELECT*
+	FROM EMPLOYEES
+
+/*Basic Test 7*/
+DELETE FROM Clients	
+	WHERE ClientID = '0007'
+
+/*Basic Test 8*/
+insert into CLIENTS values ('0034', 'Shulk', 'Dog', 'Pit Bull', 150, '2013-09-07', 'No', 'O32');
+
+/*Basic Test 9*/
+insert into BOARDINGINFO values ('0034', 'E15', '2019-02-24', '2019-02-25', 'yes', '01101', 'opp0001');
+insert into CLIENTS values ('0034', 'Shulk', 'Dog', 'Pit Bull', 150, '2013-09-07', 'Female', 'No', 'O32');
+
+/*Basic Test 10*/
+insert into OWNERS values ('O31', 'Kimbo', 'Slice', '696 Brawl Street', '123-888-1180', 'Brawl Street', 'Los Angeles', 'CA');
+
+================================================================================================================================
+
+Create View NumClients As
+	Select E.FName, E.LName, V.reasonforVisit, Count(V.Visit#) as 'NumOfVisit'
+		From Employees E join Visits V
+				on E.EmployeeID = V.EmployeeID
+			Group By E.FName, E.LName, V.reasonforvisit
+			Having Count(V.Visit#) > 1;
+
+SELECT *
+	FROM NumClients
+
+=========================================================================================
+
+Create View Caretakers As
+	Select O.OwnerId, O.LastName, C.NameofPet, E.employeeID, E.LName as 'Caretaker'
+		From Clients C Join Owners O
+				on C.OwnerID = O.OwnerID
+			Join Visits V
+				on V.ClientID = C.clientID
+			Join Employees E
+				on V.EmployeeID = E.EmployeeId;
+
+SELECT *
+	FROM Caretakers

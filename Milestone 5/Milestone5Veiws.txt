@@ -1,0 +1,61 @@
+Create view DogBusiness As
+	Select species,Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.TreatmentID = VI.TreatmentID
+				where Species = 'dog';
+Select *
+	From DogBusiness;
+
+
+
+
+
+Create view CatBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				where Species = 'cat';
+
+
+
+Create view TotalBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.Visit# = VI.Visit#;
+
+
+
+/*Advanced query that selects  the pet name and the owner name and number of visits*/
+Set Statistics time On;
+Go
+Select NameOfPet,FirstName, LastName, count(Visit#) "Number of Visits"
+	from Clients C JOin OWNERS O
+		On C.OwnerID = O.OwnerID
+		Join VISITS V
+		On C.ClientID = V.ClientID
+			Where PetWeight < 60.00
+				Group By NameOfPet,FirstName, LastName
+				Having count(Visit#) >= 1
+Order By 1;
+Go 
+Set Statistics time off;
+Go
+
+
+/* Updates days absent after : When an employee is absent from work, add
+ the info to the Days Absent table and then automatically increment the days absent statusin the Employee table.*/
+
+Create Trigger AbsentUpdate
+	on ABSENTLOG
+	After Insert
+As	
+	Update EMPLOYEES
+		Set DaysAbsent = DaysAbsent +1
+			Where EmployeeID = 
+				(Select EmployeeID
+					From inserted);
+				

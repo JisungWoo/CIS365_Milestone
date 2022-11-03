@@ -1,0 +1,204 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fnil\fcharset134 PingFangSC-Regular;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 /*  CREATE, INSERT, AND DISPLAY THE CONTENTS OF THE VISITS TABLE */\
+\
+\
+create table \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 VISITS 
+\f1 \'a3\'a8
+\f0 \
+	DateofVisit                           Date                 Not null,\
+	ReasonforVisit                     varchar(30)      Not null,\
+	Visit#                                    varchar(10)           Not null,\
+	TotalChagefortheVisit          decimal(7,2)     Not null,\
+	ClientID                                char(4)             Not null,\
+	EmployeeID                         varchar(4)             Not null,\
+	TreatmentID                         char(5)             Not null,\
+	Primary Key (\cf0 \cb1 \outl0\strokewidth0 Visit#\cf2 \cb3 \outl0\strokewidth0 \strokec2 )\
+	Foreign Key (TreatmentID) REFERENCES TREATMENTS (TreatmentID),\
+	\cf0 \cb1 \outl0\strokewidth0 Foreign Key (ClientID) REFERENCES CLIENTS (ClientID),\
+	Foreign Key (EmployeeID) REFERENCES CLIENTS (EmployeeID)\cf2 \cb3 \outl0\strokewidth0 \strokec2 );\
+\
+insert into \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 VISIT \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2  values ( \'9204-Jan-19\'92, \'91Parvo\'92, \'91
+\f2\fs26 opp0001
+\f0\fs24 \'92, 
+\fs26 60.00, \'91\cb1 0001\cb3 \'92, \'91\cb1 E02\cb3 \'92, \'91\cb1 01101\cb3 \'92);
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \cb1 \outl0\strokewidth0 insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9204-Jan-19\'92, \'91Carona\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 opp0002
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 90.00, \'910002\'92, \'91E05\'92 \'9101102\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9207-Jan-19\'92, \'91Bordetella\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 opp0003
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 510.00, \'910003\'92, \'91E06\'92, \'9101103\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9208-Jan-19\'92, \'91Rabies\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 opp0004
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 90.00, \'910004\'92, \'92E07\'92, \'9101104\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9208-Jan-19\'92, \'91Feline Distemper\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 opp0005\'92, 
+\f0 \cb1 34.00, \'910005\'92, \'92E10\'92, \'9101105\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9210-Jan-19\'92, \'91Rabies\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 opp0006
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 29.00, \'910006\'92, \'92E14\'92, \'9101106\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9214-Jan-19\'92, \'91Leukemia\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 imm0001
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 87.00, \'910007\'92, \'92E17\'92, \'9102201\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9214-Jan-19\'92, \'91Medicine Care\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 imm0002
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 98.00, \'910008\'92, \'91E22\'92, \'9102202\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9215-Jan-19\'92, \'91Leukemia\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 imm0003
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 30.00, \'910009\'92, \'91E23\'92, \'9102203\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9216-Jan-19\'92, \'91Carona\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 imm0004
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 43.00, \'920010\'92, \'92E24\'92, \'9102204\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9217-Jan-19\'92, \'91Medicine Care\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 imm0005
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 67.00, \'910011\'92, \'91E30\'92, \'9102205\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT \expnd0\expndtw0\kerning0
+ values ( \'9218-Jan-19\'92, \'91Leukemia\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 imm0006
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 89.00, \'920012\'92, \'91E22\'92, \'9102206\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9222-Jan-19\'92, \'91Feline Distemper\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 lab0001
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 70.00, \'910013\'92, \'91E29\'92, \'9203301\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9222-Jan-19\'92, \'91Carona\'92, \'92
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 lab0002
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 65.00, \'920014\'92, \'91E03\'92, \'9103302\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9224-Jan-19\'92, \'91Medicine Care\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 lab0003
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 200.00, \'920015\'92, \'91E15\'92, \'9103303\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9225-Jan-19\'92, \'91Feline Distemper\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 lab0004
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 60.00, \'910016\'92, \'92E15\'92, \'9103304\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9228-Jan-19\'92, \'91Medicine Care\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 lab0005
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 90.00, \'910017\'92, \'91E22\'92, \'9103305\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9230-Jan-19\'92, \'91Leukemia\'92, \'91
+\f2\fs26 \cf2 \cb3 \outl0\strokewidth0 \strokec2 lab0006
+\f0\fs24 \cf0 \cb1 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 80.00, \'910018\'92, \'91E08\'92, \'9103306\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9201-Feb-19\'92, \'91Parvo\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 rad0001\'92, 50.00, \'910019\'92, \'91E07\'92, \'9104401\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9201\'96Feb-19\'92, \'91Feline Distemper\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 rad0002\'92, 68.00, \'910020\'92, \'91E12\'92, \'9104401\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9205\'96Feb-19\'92, \'91Leukemia\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 rad0003\'92, 98.00, \'920021\'92, \'91E05\'92, \'9104401\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9206\'96Feb-19\'92, \'91Parvo\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 rad0004\'92, 123.00, \'910022\'92, \'91E25\'92, \'9104402\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9207\'96Feb-19\'92, \'91Medicine Care\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 rad0005
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 160.00, \'910023\'92, \'91E14\'92, \'9104402\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9208\'96Feb-19\'92, \'91Leukemia\'92 \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 rad0006
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 200.00, \'910024\'92, \'91E18\'92, \'9104402\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9213\'96Feb-19\'92, \'91Feline Distemper\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 prx0001
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 29.81, \'920025\'92, \'91E02\'92, \'9105501\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9215\'96Feb-19\'92, \'91Leukemia\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 prx0002
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 189.14, \'920026\'92, \'92E17\'92, \'9105501\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9219\'96Feb-19\'92, \'91Medicine Care\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 prx0003
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 77.92, \'920027\'92, \'91E10\'92, \'9105501\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9220\'96Feb-19\'92, \'91Feline Distemper\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 prx0004
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 98.23, \'920028\'92, \'91E21\'92, \'9105501\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9221\'96Feb-19\'92, \'91Parvo\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 prx0005
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 155.91, \'910029\'92, \'91E11\'92, \'9105501\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+insert into \kerning1\expnd0\expndtw0 VISIT\expnd0\expndtw0\kerning0
+  values ( \'9222\'96Feb-19\'92, \'91Parvo\'92, \'91
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 prx0006
+\fs24 \cf0 \outl0\strokewidth0 \'92, 
+\fs26 \cf2 \outl0\strokewidth0 \strokec2 123.13, \'910030\'92, \'91E03\'92, \'9105501\'92);
+\fs24 \cf0 \outl0\strokewidth0 \
+\
+Select * from VISITS\
+\
+===========================================================================================\
+}

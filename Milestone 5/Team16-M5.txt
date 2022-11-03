@@ -1,0 +1,169 @@
+/*Section 1: Transactions Overview */
+
+
+/* 1. adding a new Client record in for after hour emergency for OWNERS, CLIENTS, COLORS, VISITS, VISITITEMS, BOARDINGINFO*/
+BEGIN TRANSACTION;
+
+INSERT INTO OWNERS
+	VALUES ('O31', 'Kathleen', 'Moser', '1365 N Scottsdale Rd.', '480-965-3252', 'Scottsdale', 'Phoenix', 'AZ', '85257');
+INSERT INTO CLIENTS
+	VALUES ('0033', 'Karl', 'Dog', 'Bernese Mountain Dog', 60.34, '26-Dec-11', 'Male', 'No', 'O31');
+INSERT INTO COLORS
+	VALUES ('0033', 'Karl', 'Black');
+INSERT INTO VISITS
+	VALUES (GETDATE(), 'Neutered', 'opp0013', '0033', 'E32', '01101');
+INSERT INTO VISITITEMS
+	VALUES ('01101', 'opp0013', 'after-hours emergency', 100.00);
+INSERT INTO BOARDINGINFO
+	VALUES ('0033', 'E33', GETDATE(), GETDATE() + 1, 'yes', '01101', 'opp0013');
+
+SELECT *
+	FROM OWNERS
+		WHERE OwnerID = 'O31';
+SELECT *
+	FROM CLIENTS
+		WHERE ClientID = '0033';
+SELECT *
+	FROM COLORS
+		WHERE ClientID = '0033';
+SELECT *
+	FROM VISITS
+		WHERE Visit# = 'opp0013';
+SELECT *
+	FROM VISITITEMS
+		WHERE Visit# = 'opp0013';
+SELECT *
+	FROM BOARDINGINFO
+		WHERE ClientID = '0033';
+
+
+
+/* 2. adding a new vet record in EMPLOYEES, FullTime and VETERINARIANS */
+BEGIN TRANSACTION;
+
+INSERT INTO EMPLOYEES
+	VALUES ('E32', 'Kathleen', 'Moser', '1365 N Scottsdale Rd.', '4809653252', 17, GETDATE(), 0, 'Full-Time');
+INSERT INTO FullTime
+	VALUES ('E32', '5/12/2019', 'Veternarian');
+INSERT INTO VETERINARIANS
+	VALUES ('E32', 'ASU', 'Surgery');
+
+SELECT *
+	FROM EMPLOYEES
+		WHERE EmployeeID = 'E32';
+SELECT *
+	FROM FullTime
+		WHERE FID = 'E32';
+SELECT *
+	FROM VETERINARIANS
+		WHERE VID = 'E32';
+COMMIT;		
+=================================================================================================================================
+/* Section 2: Triggers/Stored Procedures Overview */
+
+/*Triggers*/
+/* Updates days absent after : When an employee is absent from work, add
+ the info to the Days Absent table and then automatically increment the days absent statusin the Employee table.*/
+
+Create Trigger AbsentUpdate
+	on ABSENTLOG
+	After Insert
+As	
+	Update EMPLOYEES
+		Set DaysAbsent = DaysAbsent +1
+			Where EmployeeID = 
+				(Select EmployeeID
+					From inserted);
+
+/*Procedures*/
+/* CREATE ClientNeuteredLog TABLE */
+
+create table ClientNeuteredLog (
+	ClientID		char(4)		Not null,
+	NameOfPet		varchar(15)	Not null,
+	DateOfBirth		Date		Not null,
+	DateNeutered	datetime	DEFAULT	GETDATE(),
+	Primary Key (ClientID));
+
+=========================================
+
+/* CREATE PROCEDURE FOR ClientNeutered */
+
+CREATE PROCEDURE ClientNeutered
+	@ClientID		char(4),
+	@NameOfPet		varchar(15),
+	@DateOfBirth		Date,
+	@DateNeutered	datetime
+AS
+BEGIN
+	INSERT INTO ClientNeuteredLog (ClientID, NameOfPet, DateOfBirth, DateNeutered)
+	VALUES (@ClientID, @NameOfPet, @DateOfBirth, @DateNeutered)
+END
+GO 
+
+==========================================
+
+/* ClientNeutered Procedure Testing */
+insert into VISITS values ( '26-Nov-19', 'sterilize', 'opp0014', '0008', 'E02', '01101');
+
+exec ClientNeutered
+	@ClientID	= '0008',
+	@NameOfPet	= 'Frankie',
+	@DateOfBirth = '1-Oct-19',
+	@DateNeutered = '26-Nov-19'
+
+SELECT *
+	FROM ClientNeuteredLog;
+
+SELECT *
+	FROM VISITS
+==================================================================================================================================
+/* Section 3: Indexes */
+
+/*Advanced query that selects  the pet name and the owner name and number of visits*/
+Set Statistics time On;
+Go
+Select NameOfPet,FirstName, LastName, count(Visit#) "Number of Visits"
+	from Clients C JOin OWNERS O
+		On C.OwnerID = O.OwnerID
+		Join VISITS V
+		On C.ClientID = V.ClientID
+			Where PetWeight < 60.00
+				Group By NameOfPet,FirstName, LastName
+				Having count(Visit#) >= 1
+Order By 1;
+Go 
+Set Statistics time off;
+Go
+==================================================================================================================================
+/*Section 4: Analytics Dashboard Overview */
+
+Create view DogBusiness As
+	Select species,Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.TreatmentID = VI.TreatmentID
+				where Species = 'dog';
+Select *
+	From DogBusiness;
+
+
+
+
+
+Create view CatBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				where Species = 'cat';
+
+
+
+Create view TotalBusiness As
+	Select Breed, ReasonforVisit, price,  month(dateofVisit) "Month visited"
+			From Visits V Join Clients C
+				on V.clientId = C.ClientID
+				Join VisitItems VI
+				on V.Visit# = VI.Visit#;
+==================================================================================================================================

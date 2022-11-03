@@ -1,0 +1,41 @@
+/* CREATE ClientNeuteredLog TABLE */
+
+create table ClientNeuteredLog (
+	ClientID		char(4)		Not null,
+	NameOfPet		varchar(15)	Not null,
+	DateOfBirth		Date		Not null,
+	DateNeutered	datetime	DEFAULT	GETDATE(),
+	Primary Key (ClientID));
+
+====================================================================================================
+
+/* CREATE PROCEDURE FOR ClientNeutered */
+
+CREATE PROCEDURE ClientNeutered
+	@ClientID		char(4),
+	@NameOfPet		varchar(15),
+	@DateOfBirth		Date,
+	@DateNeutered	datetime
+AS
+BEGIN
+	INSERT INTO ClientNeuteredLog (ClientID, NameOfPet, DateOfBirth, DateNeutered)
+	VALUES (@ClientID, @NameOfPet, @DateOfBirth, @DateNeutered)
+END
+GO 
+
+====================================================================================================
+
+/* ClientNeutered Procedure Testing */
+insert into VISITS values ( '26-Nov-19', 'sterilize', 'opp0014', '0008', 'E02', '01101');
+
+exec ClientNeutered
+	@ClientID	= '0008',
+	@NameOfPet	= 'Frankie',
+	@DateOfBirth = '1-Oct-19',
+	@DateNeutered = '26-Nov-19'
+
+SELECT *
+	FROM ClientNeuteredLog;
+
+SELECT *
+	FROM VISITS
